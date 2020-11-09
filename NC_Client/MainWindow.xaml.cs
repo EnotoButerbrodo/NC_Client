@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,6 +34,28 @@ namespace NC_Client
             "Default.png"
         };
         List<BitmapImage> images = new List<BitmapImage>();
+        #endregion
+
+        #region Metods
+        void LoadConfig()
+        {
+            string load_config;
+            try
+            {
+                using (FileStream fs = new FileStream("config.json", FileMode.Open, FileAccess.Read))
+                {
+                    using (var stream = new StreamReader(fs))
+                    {
+                        load_config = stream.ReadToEnd();
+                        config_file = JsonSerializer.Deserialize<SettingsFile>(load_config);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         #endregion
     }
 }
