@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -74,7 +75,50 @@ namespace NC_Client
             {
                 MessageBox.Show(ex.Message);
             }
-        }0
+        }
+        void ReadImageFromZip(string zipPath, string Folder, List<string> needingImagesList, List<BitmapImage> image_list)
+        {
+            ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Read);
+            {
+                try
+                {
+                    foreach (var entry in archive.Entries)
+                    {
+
+                        if (entry.FullName.Contains(Folder) & needingImagesList.Contains(entry.Name))
+                        {
+                            try
+                            {
+
+                                BitmapImage src = new BitmapImage();
+                                src.DownloadCompleted += (s, e) =>
+                                {
+                                    archive.Dispose();
+                                };
+
+                                src.BeginInit();
+                                src.CacheOption = BitmapCacheOption.OnLoad;
+                                src.StreamSource = entry.Open();
+                                src.EndInit();
+                                image_list.Add(src);
+                                needingImagesList.RemoveAt(needingImagesList.FindIndex(item => item == entry.Name));
+
+                                //MessageBox.Show(image_list[0].ToString());
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message + "Hui");
+                            }
+                        }
+
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
         #endregion
     }
 }
