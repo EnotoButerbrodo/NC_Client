@@ -24,6 +24,14 @@ namespace NC_Client
         {
             InitializeComponent();
         }
-
+        #region Variables
+        SettingsFile config_file = new SettingsFile();
+        List<BitmapImage> backgrounds = new List<BitmapImage>();
+        List<string> needImages = new List<string>()
+        {
+            "Default.png"
+        };
+        List<BitmapImage> images = new List<BitmapImage>();
+        #endregion
     }
 }
