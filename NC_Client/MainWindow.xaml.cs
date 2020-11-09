@@ -26,8 +26,11 @@ namespace NC_Client
         public MainWindow()
         {
             InitializeComponent();
+            ReadImageFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                "Monika", needImages, images);
+            BackgroundImage.Source = images[0];
         }
-        #region Variables
+            #region Variables
         SettingsFile config_file = new SettingsFile();
         List<BitmapImage> backgrounds = new List<BitmapImage>();
         List<string> needImages = new List<string>()
@@ -35,9 +38,9 @@ namespace NC_Client
             "Default.png"
         };
         List<BitmapImage> images = new List<BitmapImage>();
-        #endregion
+            #endregion
 
-        #region Metods
+            #region Metods
         void LoadConfig()
         {
             string load_config;
@@ -120,9 +123,9 @@ namespace NC_Client
             }
         }
 
-        #endregion
-        #region Buttons
+            #endregion
+            #region Buttons
 
-        #endregion
+            #endregion
     }
 }
