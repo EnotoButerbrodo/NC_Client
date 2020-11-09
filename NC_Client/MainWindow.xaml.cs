@@ -56,6 +56,25 @@ namespace NC_Client
                 MessageBox.Show(ex.Message);
             }
         }
+        void SaveConfig()
+        {
+            string save_config = JsonSerializer.Serialize<SettingsFile>(config_file);
+
+            try
+            {
+                using (FileStream fs = new FileStream("config.json", FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    using (var stream = new StreamWriter(fs))
+                    {
+                        stream.Write(save_config);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }0
         #endregion
     }
 }
