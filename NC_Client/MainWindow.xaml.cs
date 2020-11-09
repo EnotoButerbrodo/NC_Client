@@ -30,7 +30,7 @@ namespace NC_Client
                 "Monika", needImages, images);
             BackgroundImage.Source = images[0];
         }
-            #region Variables
+        #region Variables
         SettingsFile config_file = new SettingsFile();
         List<BitmapImage> backgrounds = new List<BitmapImage>();
         List<string> needImages = new List<string>()
@@ -40,7 +40,7 @@ namespace NC_Client
         List<BitmapImage> images = new List<BitmapImage>();
             #endregion
 
-            #region Metods
+        #region Metods
         void LoadConfig()
         {
             string load_config;
@@ -124,7 +124,7 @@ namespace NC_Client
         }
 
             #endregion
-            #region Buttons
+        #region Buttons
 
             #endregion
     }
