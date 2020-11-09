@@ -8,5 +8,6 @@
         Title="MainWindow" Height="480" Width="854" ResizeMode="CanMinimize">
     <Grid>
         <Image Name="Background" Grid.Column="0" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Fill"/>
+        <Image Name="Background2" Grid.Column="0" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Fill"/>
     </Grid>
 </Window>
