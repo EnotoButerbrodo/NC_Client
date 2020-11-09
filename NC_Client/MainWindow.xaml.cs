@@ -119,6 +119,10 @@ namespace NC_Client
                 }
             }
         }
+
+        #endregion
+        #region Buttons
+
         #endregion
     }
 }
