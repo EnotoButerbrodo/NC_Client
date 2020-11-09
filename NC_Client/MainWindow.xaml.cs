@@ -24,5 +24,6 @@ namespace NC_Client
         {
             InitializeComponent();
         }
+
     }
 }
