@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -30,6 +31,22 @@ namespace NC_Client
             settings = LoadConfig();
             Application.Current.MainWindow.Width = settings.Window_Width;
             Application.Current.MainWindow.Height = settings.Window_Height;
+            List<string> list = new List<string>() { "hi", "my", "name is", "Igor"};
+            List<string> list2 = new List<string>() { "HUI", "HER" };
+
+            String str = JsonSerializer.Serialize(list);
+            str +="@" + JsonSerializer.Serialize(list2);
+            string str2 = str.Remove(str.IndexOf('@'));
+            string str21 = str.Remove(0, str.IndexOf('@')+1);
+            MessageBox.Show(str21);
+            var str3 = JsonSerializer.Deserialize<List<string>>(str2);
+            var str31 = JsonSerializer.Deserialize<List<string>>(str21);
+            foreach(var s in str31)
+            {
+                MessageBox.Show(s);
+            }
+
+
 
 
         }
@@ -41,8 +58,9 @@ namespace NC_Client
             "Default.png"
         };
         List<BitmapImage> images = new List<BitmapImage>();
-        #endregion
         SettingsFile settings = new SettingsFile();
+        #endregion
+
 
 
         #region Metods
@@ -126,6 +144,29 @@ namespace NC_Client
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
+        }
+
+        //Сформировать строку из сериализованного листа использованных картинок и листа фреймов
+        //Десиализовать обратно и разбить строку обратно на два листа
+
+        void SaveList(List<string> image_list)
+        {
+            string save_config = JsonSerializer.Serialize(image_list);
+
+            try
+            {
+                using (FileStream fs = new FileStream("config.json", FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    using (var stream = new StreamWriter(fs))
+                    {
+                        stream.Write(save_config);
+                    }
+                }
+            }
+            catch
+            {
+
             }
         }
 
