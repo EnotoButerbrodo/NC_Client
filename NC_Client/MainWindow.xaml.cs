@@ -23,12 +23,12 @@ namespace NC_Client
     /// </summary>
     public partial class MainWindow : Window
     {
+        
         public MainWindow()
         {
             InitializeComponent();
-            ReadImageFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-                "Monika", needImages, images);
-            BackgroundImage.Source = images[0];
+            
+            
         }
         #region Variables
         SettingsFile config_file = new SettingsFile();
@@ -38,7 +38,9 @@ namespace NC_Client
             "Default.png"
         };
         List<BitmapImage> images = new List<BitmapImage>();
-            #endregion
+        #endregion
+        SettingsFile settings = new SettingsFile() { Window_Height = 848, Window_Width = 480 };
+
 
         #region Metods
         void LoadConfig()
@@ -60,10 +62,9 @@ namespace NC_Client
                 MessageBox.Show(ex.Message);
             }
         }
-        void SaveConfig()
+        void SaveConfig(SettingsFile file)
         {
-            string save_config = JsonSerializer.Serialize<SettingsFile>(config_file);
-
+            string save_config = JsonSerializer.Serialize<SettingsFile>(file);
             try
             {
                 using (FileStream fs = new FileStream("config.json", FileMode.OpenOrCreate, FileAccess.Write))
