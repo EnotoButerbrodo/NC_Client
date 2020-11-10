@@ -123,7 +123,7 @@ namespace NC_Client
             }
         }
 
-            #endregion
+        #endregion
         #region Buttons
 
             #endregion
