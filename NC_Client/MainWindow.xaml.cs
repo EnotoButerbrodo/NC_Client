@@ -27,8 +27,11 @@ namespace NC_Client
         public MainWindow()
         {
             InitializeComponent();
-            
-            
+            settings = LoadConfig();
+            Application.Current.MainWindow.Width = settings.Window_Width;
+            Application.Current.MainWindow.Height = settings.Window_Height;
+
+
         }
         #region Variables
         SettingsFile config_file = new SettingsFile();
@@ -39,21 +42,20 @@ namespace NC_Client
         };
         List<BitmapImage> images = new List<BitmapImage>();
         #endregion
-        SettingsFile settings = new SettingsFile() { Window_Height = 848, Window_Width = 480 };
+        SettingsFile settings = new SettingsFile();
 
 
         #region Metods
-        void LoadConfig()
+        SettingsFile LoadConfig()
         {
-            string load_config;
             try
             {
                 using (FileStream fs = new FileStream("config.json", FileMode.Open, FileAccess.Read))
                 {
                     using (var stream = new StreamReader(fs))
                     {
-                        load_config = stream.ReadToEnd();
-                        config_file = JsonSerializer.Deserialize<SettingsFile>(load_config);
+                        string load_config = stream.ReadToEnd();
+                        return JsonSerializer.Deserialize<SettingsFile>(load_config);
                     }
                 }
             }
@@ -61,6 +63,7 @@ namespace NC_Client
             {
                 MessageBox.Show(ex.Message);
             }
+            return new SettingsFile() { Window_Width = 100, Window_Height = 100 };
         }
         void SaveConfig(SettingsFile file)
         {
