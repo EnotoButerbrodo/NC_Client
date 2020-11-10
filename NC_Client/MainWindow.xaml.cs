@@ -24,47 +24,31 @@ namespace NC_Client
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+
         public MainWindow()
         {
             InitializeComponent();
-            settings = LoadConfig();
-            Application.Current.MainWindow.Width = settings.Window_Width;
-            Application.Current.MainWindow.Height = settings.Window_Height;
-            List<string> list = new List<string>() { "hi", "my", "name is", "Igor"};
-            List<string> list2 = new List<string>() { "HUI", "HER" };
+            //settings = LoadConfig();
+            //Application.Current.MainWindow.Width = settings.Window_Width;
+            //Application.Current.MainWindow.Height = settings.Window_Height;
 
-            String str = JsonSerializer.Serialize(list);
-            str +="@" + JsonSerializer.Serialize(list2);
+            //using(FileStream fs = File.Open("script.txt", FileMode.Open))
+            //{
+            //    using(var reader = new StreamReader(fs))
+            //    {
+            //        str = reader.ReadToEnd();
+            //    }
+            //}
+            //string str2 = str.Remove(str.IndexOf('@'));
+            //var str21 = JsonSerializer.Deserialize<List<string>>(str2);
 
-            using(FileStream fs = File.Open("script.txt", FileMode.OpenOrCreate))
-            {
-                using(var stream = new StreamWriter(fs))
-                {
-                    stream.Write(str);
-                }
-            }
-            using(FileStream fs = File.Open("script.txt", FileMode.Open))
-            {
-                using(var reader = new StreamReader(fs))
-                {
-                    str = reader.ReadToEnd();
-                }
-            }
-            string str2 = str.Remove(str.IndexOf('@'));
-            var str21 = JsonSerializer.Deserialize<List<string>>(str2);
-            foreach (var s in str21)
-            {
-                MessageBox.Show(s);
-            }
-            string str3 = str.Remove(0, str.IndexOf('@') + 1);
-            var str31 = JsonSerializer.Deserialize<List<string>>(str3);
-            foreach(var s in str31)
-            {
-                MessageBox.Show(s);
-            }
-
-
+            //string str3 = str.Remove(0, str.IndexOf('@') + 1);
+            //var str31 = JsonSerializer.Deserialize<List<string>>(str3);
+            List<string> images = new List<string>() { "Default.png", "Class1.png" };
+            string[] chars = new string[] { "Monika", "Sayori"};
+            List<Frame> scripts = new List<Frame>() {
+                new Frame("Hui", chars) , new Frame("Pizda", chars)};
+            SaveScriptFile(images, scripts);
 
 
         }
@@ -78,10 +62,31 @@ namespace NC_Client
         List<BitmapImage> images = new List<BitmapImage>();
         SettingsFile settings = new SettingsFile();
         #endregion
-
+        public class Frame
+        {
+            public Frame(string text, string[] characters)
+            {
+                this.text = text;
+                this.characters = characters;
+            }
+            public string text { get; set; }
+            public string[] characters { get; set; }
+        }
 
 
         #region Metods
+        void SaveScriptFile(List<string> images_list, List<Frame> script_list)
+        {
+            string images = JsonSerializer.Serialize(images_list);
+            string script = JsonSerializer.Serialize(script_list);
+            using(var fs = File.Open("script.txt", FileMode.OpenOrCreate))
+            {
+                using(var stream = new StreamWriter(fs))
+                {
+                    stream.Write($"{images}@{script}");
+                }
+            }
+        }
         SettingsFile LoadConfig()
         {
             try
