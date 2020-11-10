@@ -8,6 +8,7 @@
         Title="MainWindow" Height="480" Width="854" ResizeMode="CanMinimize">
     <Grid>
         <Image Name="BackgroundImage" Grid.Column="0" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Fill"/>
-        
+        <Button Content="Button" HorizontalAlignment="Left" Margin="350,340,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+
     </Grid>
 </Window>

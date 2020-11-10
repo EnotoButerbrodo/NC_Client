@@ -24,34 +24,17 @@ namespace NC_Client
     /// </summary>
     public partial class MainWindow : Window
     {
-
+       
         public MainWindow()
         {
             InitializeComponent();
-            //settings = LoadConfig();
-            //Application.Current.MainWindow.Width = settings.Window_Width;
-            //Application.Current.MainWindow.Height = settings.Window_Height;
-
-            //using(FileStream fs = File.Open("script.txt", FileMode.Open))
-            //{
-            //    using(var reader = new StreamReader(fs))
-            //    {
-            //        str = reader.ReadToEnd();
-            //    }
-            //}
-            //string str2 = str.Remove(str.IndexOf('@'));
-            //var str21 = JsonSerializer.Deserialize<List<string>>(str2);
-
-            //string str3 = str.Remove(0, str.IndexOf('@') + 1);
-            //var str31 = JsonSerializer.Deserialize<List<string>>(str3);
-            List<string> images = new List<string>() { "Default.png", "Class1.png" };
-            string[] chars = new string[] { "Monika", "Sayori"};
-            List<Frame> scripts = new List<Frame>() {
-                new Frame("Hui", chars) , new Frame("Pizda", chars)};
-            SaveScriptFile(images, scripts);
-
-
         }
+        List<string> images2;
+        List<Frame> script2;
+        List<string> images = new List<string>() { "Default.png", "Class1.png" };
+        static string[] chars = new string[] { "Monika", "Sayori" };
+        List<Frame> scripts = new List<Frame>() {
+                new Frame("Hui", chars) , new Frame("Pizda", chars)};
         #region Variables
         SettingsFile config_file = new SettingsFile();
         List<BitmapImage> backgrounds = new List<BitmapImage>();
@@ -59,11 +42,13 @@ namespace NC_Client
         {
             "Default.png"
         };
-        List<BitmapImage> images = new List<BitmapImage>();
+        //List<BitmapImage> images = new List<BitmapImage>();
         SettingsFile settings = new SettingsFile();
         #endregion
+        [Serializable]
         public class Frame
         {
+            public Frame() { }
             public Frame(string text, string[] characters)
             {
                 this.text = text;
@@ -87,6 +72,25 @@ namespace NC_Client
                 }
             }
         }
+        void LoadScriptFile(out List<string> images, out List<Frame> script)
+        {
+            string file, im, sc;
+            using (FileStream fs = File.Open("script.txt", FileMode.Open))
+            {
+                using (var reader = new StreamReader(fs))
+                {
+                    file = reader.ReadToEnd();
+                }
+            }
+            int buff = file.IndexOf('@');
+            im = file.Remove(buff);
+            sc = file.Remove(0, buff+1);
+
+            images = JsonSerializer.Deserialize<List<string>>(im);
+
+            script = JsonSerializer.Deserialize<List<Frame>>(sc);
+        }
+
         SettingsFile LoadConfig()
         {
             try
@@ -194,8 +198,15 @@ namespace NC_Client
         }
 
         #endregion
+
         #region Buttons
 
-            #endregion
+        #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SaveScriptFile(images, scripts);
+            LoadScriptFile(out images2, out script2);
+        }
     }
 }
