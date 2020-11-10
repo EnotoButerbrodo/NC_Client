@@ -63,7 +63,9 @@ namespace NC_Client
             {
                 MessageBox.Show(ex.Message);
             }
-            return new SettingsFile() { Window_Width = 100, Window_Height = 100 };
+            return new SettingsFile() { Window_Width = Properties.Settings.Default.WindowWidth,
+                Window_Height = Properties.Settings.Default.WindowHeight
+            };
         }
         void SaveConfig(SettingsFile file)
         {
