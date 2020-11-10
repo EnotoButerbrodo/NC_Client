@@ -36,11 +36,29 @@ namespace NC_Client
 
             String str = JsonSerializer.Serialize(list);
             str +="@" + JsonSerializer.Serialize(list2);
+
+            using(FileStream fs = File.Open("script.txt", FileMode.OpenOrCreate))
+            {
+                using(var stream = new StreamWriter(fs))
+                {
+                    stream.Write(str);
+                }
+            }
+            using(FileStream fs = File.Open("script.txt", FileMode.Open))
+            {
+                using(var reader = new StreamReader(fs))
+                {
+                    str = reader.ReadToEnd();
+                }
+            }
             string str2 = str.Remove(str.IndexOf('@'));
-            string str21 = str.Remove(0, str.IndexOf('@')+1);
-            MessageBox.Show(str21);
-            var str3 = JsonSerializer.Deserialize<List<string>>(str2);
-            var str31 = JsonSerializer.Deserialize<List<string>>(str21);
+            var str21 = JsonSerializer.Deserialize<List<string>>(str2);
+            foreach (var s in str21)
+            {
+                MessageBox.Show(s);
+            }
+            string str3 = str.Remove(0, str.IndexOf('@') + 1);
+            var str31 = JsonSerializer.Deserialize<List<string>>(str3);
             foreach(var s in str31)
             {
                 MessageBox.Show(s);
