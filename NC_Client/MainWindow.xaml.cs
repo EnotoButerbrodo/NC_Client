@@ -47,18 +47,7 @@ namespace NC_Client
         //List<BitmapImage> images = new List<BitmapImage>();
         SettingsFile settings = new SettingsFile();
         #endregion
-        [Serializable]
-        public class Frame
-        {
-            public Frame() { }
-            public Frame(string text, string[] characters)
-            {
-                this.text = text;
-                this.characters = characters;
-            }
-            public string text { get; set; }
-            public string[] characters { get; set; }
-        }
+       
 
 
         #region Metods
@@ -207,8 +196,7 @@ namespace NC_Client
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SaveScriptFile(images, scripts);
-            LoadScriptFile(out images2, out script2);
+            
         }
     }
 }
