@@ -24,30 +24,26 @@ namespace NC_Client
     /// </summary>
     public partial class MainWindow : Window
     {
-       //Сделать нормальный класс фрейм
-       //Записать сценарий
-       //Прочитать сценарий в память
+        //Сделать нормальный класс фрейм
+        //Записать сценарий
+        //Прочитать сценарий в память
         public MainWindow()
         {
             InitializeComponent();
+            
         }
-        List<string> images2;
-        List<Frame> script2;
-        List<string> images = new List<string>() { "Default.png", "Class1.png" };
-        static string[] chars = new string[] { "Monika", "Sayori" };
-        List<Frame> scripts = new List<Frame>() {
-                new Frame("Hui", chars) , new Frame("Pizda", chars)};
+
+        //List<string> images = new List<string>() { "Default.png", "Class1.png" };
+        //static string[] chars = new string[] { "Monika", "Sayori" };
         #region Variables
-        SettingsFile config_file = new SettingsFile();
         List<BitmapImage> backgrounds = new List<BitmapImage>();
-        List<string> needImages = new List<string>()
-        {
-            "Default.png"
-        };
-        //List<BitmapImage> images = new List<BitmapImage>();
+        List<string> needImages = new List<string>();
+        List<BitmapImage> scene_images = new List<BitmapImage>();
         SettingsFile settings = new SettingsFile();
+
+        List<Frame> test_scene = new List<Frame>();
+        
         #endregion
-       
 
 
         #region Metods
@@ -196,7 +192,41 @@ namespace NC_Client
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
+            test_scene.Clear();
+            test_scene.Add(new Frame()
+            {
+                background = "Class1.png",
+                characters = new string[] { "Default.png" },
+                text = "Hello",
+            });
+            test_scene.Add(new Frame()
+            {
+                background = "Class1.png",
+                characters = new string[] { "Default_confusion.png" },
+                text = "How are you?",
+            });
+            test_scene.Add(new Frame()
+            {
+                background = "Class1.png",
+                characters = new string[] { "Flirty.png" },
+                text = "Am i see you before?",
+            });
+            test_scene.Add(new Frame()
+            {
+                background = "Class1.png",
+                characters = new string[] { "Flirty_angry.png" },
+                text = "You are the man why delete me?!",
+            });
+            needImages.Clear();
+            needImages.AddRange(new string[]{"Class1.png", "Default.png",
+            "Default_confusion.png","Flirty.png","Flirty_angry.png"});
+            SaveScriptFile(needImages, test_scene);
+            List<string> readImages;
+            List<Frame> readScript;
+            LoadScriptFile(out readImages, out readScript);
+            List<BitmapImage> t = new List<BitmapImage>();
+            ReadImageFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                "", readImages, t);
         }
     }
 }
