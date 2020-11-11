@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -30,7 +31,6 @@ namespace NC_Client
         public MainWindow()
         {
             InitializeComponent();
-            
         }
 
         //List<string> images = new List<string>() { "Default.png", "Class1.png" };
@@ -117,48 +117,70 @@ namespace NC_Client
                 MessageBox.Show(ex.Message);
             }
         }
-        void ReadImageFromZip(string zipPath, string Folder, List<string> needingImagesList, List<BitmapImage> image_list)
+        async void ReadImageFromZip(string zipPath, string Folder, List<string> needingImagesList, List<BitmapImage> image_list)
         {
-            ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Read);
+            using(FileStream fs = new FileStream(zipPath, FileMode.Open))
             {
-                try
+                using(ZipArchive archive = new ZipArchive(fs, ZipArchiveMode.Read))
                 {
-                    foreach (var entry in archive.Entries)
+                    foreach(var entry in archive.Entries)
                     {
-
                         if (entry.FullName.Contains(Folder) & needingImagesList.Contains(entry.Name))
                         {
-                            try
-                            {
 
-                                BitmapImage src = new BitmapImage();
-                                src.DownloadCompleted += (s, e) =>
-                                {
-                                    archive.Dispose();
-                                };
-
-                                src.BeginInit();
-                                src.CacheOption = BitmapCacheOption.OnLoad;
-                                src.StreamSource = entry.Open();
-                                src.EndInit();
-                                image_list.Add(src);
-                                needingImagesList.RemoveAt(needingImagesList.FindIndex(item => item == entry.Name));
-
-                                //MessageBox.Show(image_list[0].ToString());
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message + "Hui");
-                            }
+                            BitmapImage src = new BitmapImage();
+                            src.BeginInit();
+                            src.CacheOption = BitmapCacheOption.OnLoad;
+                            src.StreamSource = entry.Open();
+                            await Task.Delay(1000);
+                            src.EndInit();
+                            image_list.Add(src);
+                            needingImagesList.RemoveAt(needingImagesList.FindIndex(item => item == entry.Name));
                         }
-
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
             }
+            //ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Read);
+            //{
+            //    try
+            //    {
+            //        foreach (var entry in archive.Entries)
+            //        {
+            //            if (entry.FullName.Contains(Folder) & needingImagesList.Contains(entry.Name))
+            //            {
+            //                try
+            //                {
+            //                    using (Stream sr = entry.Open())
+            //                    {
+
+            //                        BitmapImage src = new BitmapImage();
+            //                        src.DownloadCompleted += (s, e) =>
+            //                        {
+            //                            archive.Dispose();
+            //                        };
+            //                        src.BeginInit();
+            //                        src.CacheOption = BitmapCacheOption.OnLoad;
+            //                        src.StreamSource = entry.Open();
+            //                        src.EndInit();
+            //                        image_list.Add(src);
+            //                        needingImagesList.RemoveAt(needingImagesList.FindIndex(item => item == entry.Name));
+            //                    }
+
+            //                    //MessageBox.Show(image_list[0].ToString());
+            //                }
+            //                catch (Exception ex)
+            //                {
+            //                    MessageBox.Show(ex.Message);
+            //                }
+            //            }
+
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message);
+            //    }
+            //}
         }
 
         //Сформировать строку из сериализованного листа использованных картинок и листа фреймов
@@ -227,6 +249,7 @@ namespace NC_Client
             List<BitmapImage> t = new List<BitmapImage>();
             ReadImageFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                 "", readImages, t);
+            BackgroundImage.Source = t[t.Count-1];
         }
     }
 }
