@@ -24,7 +24,9 @@ namespace NC_Client
     /// </summary>
     public partial class MainWindow : Window
     {
-       
+       //Сделать нормальный класс фрейм
+       //Записать сценарий
+       //Прочитать сценарий в память
         public MainWindow()
         {
             InitializeComponent();
