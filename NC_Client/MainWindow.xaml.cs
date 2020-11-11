@@ -1,8 +1,8 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Security.Cryptography.Xml;
 using System.Text;
@@ -17,6 +17,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ionic.Zip;
+
 
 namespace NC_Client
 {
@@ -117,70 +119,10 @@ namespace NC_Client
                 MessageBox.Show(ex.Message);
             }
         }
-        async void ReadImageFromZip(string zipPath, string Folder, List<string> needingImagesList, List<BitmapImage> image_list)
+        void ReadImageFromZip(string zipPath, string Folder, List<string> needingImagesList, List<BitmapImage> image_list)
         {
-            using(FileStream fs = new FileStream(zipPath, FileMode.Open))
-            {
-                using(ZipArchive archive = new ZipArchive(fs, ZipArchiveMode.Read))
-                {
-                    foreach(var entry in archive.Entries)
-                    {
-                        if (entry.FullName.Contains(Folder) & needingImagesList.Contains(entry.Name))
-                        {
-
-                            BitmapImage src = new BitmapImage();
-                            src.BeginInit();
-                            src.CacheOption = BitmapCacheOption.OnLoad;
-                            src.StreamSource = entry.Open();
-                            await Task.Delay(1000);
-                            src.EndInit();
-                            image_list.Add(src);
-                            needingImagesList.RemoveAt(needingImagesList.FindIndex(item => item == entry.Name));
-                        }
-                    }
-                }
-            }
-            //ZipArchive archive = ZipFile.Open(zipPath, ZipArchiveMode.Read);
-            //{
-            //    try
-            //    {
-            //        foreach (var entry in archive.Entries)
-            //        {
-            //            if (entry.FullName.Contains(Folder) & needingImagesList.Contains(entry.Name))
-            //            {
-            //                try
-            //                {
-            //                    using (Stream sr = entry.Open())
-            //                    {
-
-            //                        BitmapImage src = new BitmapImage();
-            //                        src.DownloadCompleted += (s, e) =>
-            //                        {
-            //                            archive.Dispose();
-            //                        };
-            //                        src.BeginInit();
-            //                        src.CacheOption = BitmapCacheOption.OnLoad;
-            //                        src.StreamSource = entry.Open();
-            //                        src.EndInit();
-            //                        image_list.Add(src);
-            //                        needingImagesList.RemoveAt(needingImagesList.FindIndex(item => item == entry.Name));
-            //                    }
-
-            //                    //MessageBox.Show(image_list[0].ToString());
-            //                }
-            //                catch (Exception ex)
-            //                {
-            //                    MessageBox.Show(ex.Message);
-            //                }
-            //            }
-
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message);
-            //    }
-            //}
+           
+            
         }
 
         //Сформировать строку из сериализованного листа использованных картинок и листа фреймов
@@ -213,43 +155,24 @@ namespace NC_Client
         #endregion
 
         private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            test_scene.Clear();
-            test_scene.Add(new Frame()
+        { 
+            MemoryStream zipMs = new MemoryStream();
+            using (ZipFile zip = ZipFile.Read(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip"))
             {
-                background = "Class1.png",
-                characters = new string[] { "Default.png" },
-                text = "Hello",
-            });
-            test_scene.Add(new Frame()
-            {
-                background = "Class1.png",
-                characters = new string[] { "Default_confusion.png" },
-                text = "How are you?",
-            });
-            test_scene.Add(new Frame()
-            {
-                background = "Class1.png",
-                characters = new string[] { "Flirty.png" },
-                text = "Am i see you before?",
-            });
-            test_scene.Add(new Frame()
-            {
-                background = "Class1.png",
-                characters = new string[] { "Flirty_angry.png" },
-                text = "You are the man why delete me?!",
-            });
-            needImages.Clear();
-            needImages.AddRange(new string[]{"Class1.png", "Default.png",
-            "Default_confusion.png","Flirty.png","Flirty_angry.png"});
-            SaveScriptFile(needImages, test_scene);
-            List<string> readImages;
-            List<Frame> readScript;
-            LoadScriptFile(out readImages, out readScript);
-            List<BitmapImage> t = new List<BitmapImage>();
-            ReadImageFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-                "", readImages, t);
-            BackgroundImage.Source = t[t.Count-1];
+                foreach (ZipEntry zipEntry in zip)
+                {
+                    if (zipEntry.FileName.Contains("Class1.png"))
+                    {
+                        zipEntry.Extract(zipMs);
+                    }
+                }
+            }
+            zipMs.Seek(0, SeekOrigin.End);
+            BitmapImage src = new BitmapImage();
+            src.BeginInit();
+            src.StreamSource = zipMs;
+            src.EndInit();
+            BackgroundImage.Source = src;
         }
     }
 }
