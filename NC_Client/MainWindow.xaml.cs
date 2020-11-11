@@ -161,7 +161,7 @@ namespace NC_Client
             {
                 foreach (ZipEntry zipEntry in zip)
                 {
-                    if (zipEntry.FileName.Contains("Class1.png"))
+                    if (zipEntry.FileName.Contains("Default.png"))
                     {
                         zipEntry.Extract(zipMs);
                     }
