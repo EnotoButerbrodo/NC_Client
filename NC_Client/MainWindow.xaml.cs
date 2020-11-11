@@ -154,25 +154,37 @@ namespace NC_Client
 
         #endregion
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        { 
-            MemoryStream zipMs = new MemoryStream();
-            using (ZipFile zip = ZipFile.Read(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip"))
+        async private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            List<string> im = new List<string>() { "Default.png", "Class1.png", "Class2.png" };
+            List<BitmapImage> t = new List<BitmapImage>();
+            foreach (var file in im)
             {
-                foreach (ZipEntry zipEntry in zip)
+                MemoryStream zipMs = new MemoryStream();
+                using (ZipFile zip = ZipFile.Read(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip"))
                 {
-                    if (zipEntry.FileName.Contains("Default.png"))
+                    foreach (ZipEntry zipEntry in zip)
                     {
-                        zipEntry.Extract(zipMs);
+                        if (zipEntry.FileName.Contains(file))
+                        {
+                            zipEntry.Extract(zipMs);
+                        }
                     }
                 }
+                zipMs.Seek(0, SeekOrigin.End);
+                BitmapImage src = new BitmapImage();
+                src.BeginInit();
+                src.StreamSource = zipMs;
+                src.EndInit();
+                t.Add(src);
+                
             }
-            zipMs.Seek(0, SeekOrigin.End);
-            BitmapImage src = new BitmapImage();
-            src.BeginInit();
-            src.StreamSource = zipMs;
-            src.EndInit();
-            BackgroundImage.Source = src;
+            MessageBox.Show(t.Count.ToString());
+            foreach (BitmapImage image in t)
+            {
+                BackgroundImage.Source = image;
+                await Task.Delay(1000);
+            }
         }
     }
 }
