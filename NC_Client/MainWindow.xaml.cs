@@ -121,13 +121,14 @@ namespace NC_Client
         }
         MemoryStream ReadFromZip(string zipPath, string fileName)
         {
-            MemoryStream stream = new MemoryStream();
+    
             using (ZipFile zip = ZipFile.Read(zipPath))
             {
                 foreach (ZipEntry zipEntry in zip)
                 {
                     if (zipEntry.FileName.Contains(fileName))
                     {
+                        MemoryStream stream = new MemoryStream();
                         zipEntry.Extract(stream);
                         stream.Seek(0, SeekOrigin.End);
                         return stream;
@@ -168,14 +169,9 @@ namespace NC_Client
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-               "Default.png",
-               out MemoryStream zipMs))
-            {
-                BackgroundImage.Source = zipMs.toBitmapImage();
 
-            }
-            else MessageBox.Show("File don't exsist");
+            BackgroundImage.Source = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                "Default.png").toBitmapImage();
 
         }
 
