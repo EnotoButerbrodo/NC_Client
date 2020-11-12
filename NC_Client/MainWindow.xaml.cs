@@ -119,10 +119,24 @@ namespace NC_Client
                 MessageBox.Show(ex.Message);
             }
         }
-        void ReadImageFromZip(string zipPath, string Folder, List<string> needingImagesList, List<BitmapImage> image_list)
+        bool ReadFromZip(string zipPath, string fileName, out MemoryStream stream)
         {
-           
-            
+            stream = new MemoryStream();
+            using (ZipFile zip = ZipFile.Read(zipPath))
+            {
+                foreach (ZipEntry zipEntry in zip)
+                {
+                    if (zipEntry.FileName.Contains(fileName))
+                    {
+                        zipEntry.Extract(stream);
+                        stream.Seek(0, SeekOrigin.End);
+                        return true;
+                    }
+                }
+
+            }
+            return false;
+
         }
 
         //Сформировать строку из сериализованного листа использованных картинок и листа фреймов
@@ -156,34 +170,16 @@ namespace NC_Client
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-                "Default.png",
-                out MemoryStream zipMs);
-            BitmapImage src = new BitmapImage();
-            src.BeginInit();
-            src.StreamSource = zipMs;
-            src.EndInit();
-            BackgroundImage.Source = src;
-        }
-
-        bool ReadFromZip(string zipPath, string fileName, out MemoryStream stream)
-        {
-            stream = new MemoryStream();
-            using (ZipFile zip = ZipFile.Read(zipPath))
+            if (ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+               "Default.png",
+               out MemoryStream zipMs))
             {
-                foreach (ZipEntry zipEntry in zip)
-                {
-                    if (zipEntry.FileName.Contains(fileName))
-                    {
-                        zipEntry.Extract(stream);
-                        stream.Seek(0, SeekOrigin.End);
-                        return true;
-                    }
-                }
-            
+                BackgroundImage.Source = zipMs.toBitmapImage();
+
             }
-            return false;
+            else MessageBox.Show("File don't exsist");
 
         }
+
     }
 }
