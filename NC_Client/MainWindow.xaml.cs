@@ -119,9 +119,9 @@ namespace NC_Client
                 MessageBox.Show(ex.Message);
             }
         }
-        bool ReadFromZip(string zipPath, string fileName, out MemoryStream stream)
+        MemoryStream ReadFromZip(string zipPath, string fileName)
         {
-            stream = new MemoryStream();
+            MemoryStream stream = new MemoryStream();
             using (ZipFile zip = ZipFile.Read(zipPath))
             {
                 foreach (ZipEntry zipEntry in zip)
@@ -130,11 +130,11 @@ namespace NC_Client
                     {
                         zipEntry.Extract(stream);
                         stream.Seek(0, SeekOrigin.End);
-                        return true;
+                        return stream;
                     }
                 }
             }
-            return false;
+            throw new Exception("Файл не найден");
         }
 
         //Сформировать строку из сериализованного листа использованных картинок и листа фреймов
