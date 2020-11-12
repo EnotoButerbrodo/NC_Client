@@ -154,37 +154,36 @@ namespace NC_Client
 
         #endregion
 
-        async private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            List<string> im = new List<string>() { "Default.png", "Class1.png", "Class2.png" };
-            List<BitmapImage> t = new List<BitmapImage>();
-            foreach (var file in im)
+            ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                "Default.png",
+                out MemoryStream zipMs);
+            BitmapImage src = new BitmapImage();
+            src.BeginInit();
+            src.StreamSource = zipMs;
+            src.EndInit();
+            BackgroundImage.Source = src;
+        }
+
+        bool ReadFromZip(string zipPath, string fileName, out MemoryStream stream)
+        {
+            stream = new MemoryStream();
+            using (ZipFile zip = ZipFile.Read(zipPath))
             {
-                MemoryStream zipMs = new MemoryStream();
-                using (ZipFile zip = ZipFile.Read(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip"))
+                foreach (ZipEntry zipEntry in zip)
                 {
-                    foreach (ZipEntry zipEntry in zip)
+                    if (zipEntry.FileName.Contains(fileName))
                     {
-                        if (zipEntry.FileName.Contains(file))
-                        {
-                            zipEntry.Extract(zipMs);
-                        }
+                        zipEntry.Extract(stream);
+                        stream.Seek(0, SeekOrigin.End);
+                        return true;
                     }
                 }
-                zipMs.Seek(0, SeekOrigin.End);
-                BitmapImage src = new BitmapImage();
-                src.BeginInit();
-                src.StreamSource = zipMs;
-                src.EndInit();
-                t.Add(src);
-                
+            
             }
-            MessageBox.Show(t.Count.ToString());
-            foreach (BitmapImage image in t)
-            {
-                BackgroundImage.Source = image;
-                await Task.Delay(1000);
-            }
+            return false;
+
         }
     }
 }
