@@ -169,9 +169,28 @@ namespace NC_Client
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            BackgroundImage.Source = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-                "Class1.png").toBitmapImage();
-            Character Monika = new Character();
+            List<string> needImage = new List<string>();
+            needImage.AddRange(new string[] { "Class1.png", "Class2.png" });
+            BitmapImage image;
+            Dictionary<string, BitmapImage> dic = new Dictionary<string, BitmapImage>();
+            foreach (string file in needImage)
+            {
+                image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                file).toBitmapImage();
+                dic.Add(file, image);
+            }
+            try
+            {
+                foreach (KeyValuePair<string, BitmapImage> entry in dic)
+                {
+                    MessageBox.Show(entry.Key);
+                    BackgroundImage.Source = entry.Value;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
         }
 
