@@ -11,21 +11,9 @@ namespace NC_Client
     {
         public string name { get; set; }
         public Brushes nameColor { get; set; }
-        List<BitmapImage> emotions { get; }
+        List<BitmapImage> sprites { get; }
         public Point position { get;}
-        bool visible { get; set; }
-        
-        public delegate void ChangeVisibleHandler();
-        ChangeVisibleHandler changeVisible;
-        public void ChangeVisible(bool visible)
-        {
-            this.visible = visible;
-            if (changeVisible != null) changeVisible();
-        }
-        public void AddEmotion(BitmapImage image)
-        {
-            emotions.Add(image);
-        }
+
 
     }
 }

@@ -9,7 +9,8 @@ namespace NC_Client
     {
         public Frame() { }
         public string text { get; set; }
-        public Character[] characters { get; set; }
+        public string character { get; set; }
+        public string sprite { get; set; }
         public string background { get; set; }
 
     }
