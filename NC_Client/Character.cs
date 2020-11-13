@@ -12,7 +12,7 @@ namespace NC_Client
         public string name { get; set; }
         public Brushes nameColor { get; set; }
         List<BitmapImage> sprites { get; }
-        public Point position { get;}
+        public Point position { get; set; }
 
 
     }
