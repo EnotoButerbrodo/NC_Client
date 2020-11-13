@@ -18,7 +18,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Ionic.Zip;
-
+using System.Drawing;
+using Point = System.Drawing.Point;
 
 namespace NC_Client
 {
@@ -49,11 +50,11 @@ namespace NC_Client
 
 
         #region Metods
-        void SaveScriptFile(List<string> images_list, List<Frame> script_list)
+        void SaveScriptFile(List<string> images_list, List<Frame> script_list, string path)
         {
             string images = JsonSerializer.Serialize(images_list);
             string script = JsonSerializer.Serialize(script_list);
-            using(var fs = File.Open("script.txt", FileMode.OpenOrCreate))
+            using(var fs = File.Open(path, FileMode.OpenOrCreate))
             {
                 using(var stream = new StreamWriter(fs))
                 {
@@ -61,10 +62,10 @@ namespace NC_Client
                 }
             }
         }
-        void LoadScriptFile(out List<string> images, out List<Frame> script)
+        void LoadScriptFile(out List<string> images, out List<Frame> script, string path)
         {
             string file, im, sc;
-            using (FileStream fs = File.Open("script.txt", FileMode.Open))
+            using (FileStream fs = File.Open(path, FileMode.Open))
             {
                 using (var reader = new StreamReader(fs))
                 {
@@ -170,29 +171,64 @@ namespace NC_Client
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             List<string> needImage = new List<string>();
-            needImage.AddRange(new string[] { "Class1.png", "Class2.png" });
+            needImage.AddRange(new string[] { "Class1.png", "Class2.png","Default.png" });
             BitmapImage image;
             Dictionary<string, BitmapImage> dic = new Dictionary<string, BitmapImage>();
+            Character Monika = new Character();
             foreach (string file in needImage)
             {
                 image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                 file).toBitmapImage();
-                dic.Add(file, image);
+                Monika.sprites.Add(file, image);
+                BackgroundImage.Source = Monika.sprites[file];
             }
-            try
-            {
-                foreach (KeyValuePair<string, BitmapImage> entry in dic)
-                {
-                    MessageBox.Show(entry.Key);
-                    BackgroundImage.Source = entry.Value;
-                }
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            
 
         }
+        private void Button_Click2(object sender, RoutedEventArgs e)
+        {
+            List<string> images = new List<string>(
+                new string[]
+                {
+                    "Class1.png",
+                    "Class2.png",
+                    "Closet1.png",
+                    "Koridor.png",
+                    "Default.png",
+                    "Flirty.png"
+                }
+                );
+            List<Frame> script = new List<Frame>();
+            script.Add(new Frame()
+            {
+                background = "Class1.png",
+                character = "Monika",
+                position = new Point(0, 0),
+                sprite = "Default.png",
+                text = "Приветик"
+
+            });
+            script.Add(new Frame()
+            {
+                background = "Class1.png",
+                character = "Monika",
+                position = new Point(0, 0),
+                sprite = "Flirty.png",
+                text = "Зая"
+
+            });
+            script.Add(new Frame()
+            {
+                background = "Class2.png",
+                character = "Monika",
+                position = new Point(0, 0),
+                sprite = "Flirty.png",
+                text = "Ой, где это я?"
+
+            });
+            SaveScriptFile(images, script,"script1.txt");
+        }
+
 
     }
 }
