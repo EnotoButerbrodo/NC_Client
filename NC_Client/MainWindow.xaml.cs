@@ -169,9 +169,9 @@ namespace NC_Client
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
             BackgroundImage.Source = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-                "Default.png").toBitmapImage();
+                "Class1.png").toBitmapImage();
+            Character Monika = new Character();
 
         }
 
