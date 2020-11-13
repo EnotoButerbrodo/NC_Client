@@ -11,9 +11,11 @@ namespace NC_Client
     {
         public string name { get; set; }
         public Brushes nameColor { get; set; }
-        List<BitmapImage> sprites { get; }
+        Dictionary<string, BitmapImage> sprites { get; set; }
         public Point position { get; set; }
-
-
+        public BitmapImage GetSprite(string name)
+        {
+            return sprites[name];
+        }
     }
 }
