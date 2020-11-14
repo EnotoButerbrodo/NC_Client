@@ -6,10 +6,17 @@
         xmlns:local="clr-namespace:NC_Client"
         mc:Ignorable="d"
         Title="MainWindow" Height="480" Width="854" ResizeMode="CanMinimize">
-    <Grid>
+    <Grid x:Name="Main">
         <Image Name="BackgroundImage" Grid.Column="0" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Fill"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="350,340,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="427,345,0,0" VerticalAlignment="Top" Click="Button_Click2"/>
-
+        <Button Content="Button" HorizontalAlignment="Left" Margin="739,325,0,0" VerticalAlignment="Top" Click="Button_Click" Panel.ZIndex="1"/>
+        <Button Content="Button2" HorizontalAlignment="Left" Margin="798,330,0,0" VerticalAlignment="Top" Click="Button_Click2" Panel.ZIndex="1"/>
+        <Grid x:Name="Interface" Panel.ZIndex="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="1" Background="Coral"/>
+        </Grid>
     </Grid>
+
 </Window>

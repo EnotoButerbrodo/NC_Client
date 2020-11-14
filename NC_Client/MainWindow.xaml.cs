@@ -188,7 +188,7 @@ namespace NC_Client
             {
                 used_characters = new string[] { "Monika", "Lilly" },
                 used_backgrouds = new string[] { "Class1.png" },
-                used_sprites = new string[2][] { new string[1] { "Default.png" }, new string[1] {"lilly_basic_cheerful.png"} }
+                used_sprites = new string[2][] { new string[] { "Default.png","Teaching_sad.png" }, new string[] {"lilly_basic_cheerful.png"} }
 
             };
             first.frames = frames.ToArray();
@@ -209,7 +209,7 @@ namespace NC_Client
                     characters[characters.Count - 1].sprites.Add(sprite, image);
                 }
             }
-            BackgroundImage.Source = characters[1].sprites["lilly_basic_cheerful.png"];
+            
         }
 
 
