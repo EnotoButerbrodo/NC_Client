@@ -212,7 +212,16 @@ namespace NC_Client
             string frame_char = curr_scene.frames[0].character;
             string char_sprite = curr_scene.frames[0].sprites[frame_char];
             BitmapImage char_image = characters[frame_char].sprites[char_sprite];
-            BackgroundImage.Source = char_image;
+           // BackgroundImage.Source = char_image;
+            Image im = new Image();
+            im.BeginInit();
+            im.Name = "char";
+            im.Width = char_image.Width / 2;
+            im.Height = char_image.Height / 2;
+            im.Stretch = Stretch.Fill;
+            im.Source = char_image;
+            im.EndInit();
+            Main.Children.Add(im);
 
         }
         void CharactersSetup(Scene scene, Dictionary<string, Character> characters)
