@@ -178,36 +178,42 @@ namespace NC_Client
         {
             //Синтетическое создание сцены
             //Синтетический фрейм
-            //List<Frame> frames = new List<Frame>();
-            //frames.Add(new Frame()
-            //{
-            //    text = "Привет всем. Это первый самостоятельный фрейм",
-            //    character = "Monika",
-            //    background = "Class1.png"
-            //});
-            //frames[0].sprites.Add("Monika", "Default.png");
-            ////Синтетическая сцена
-            //Scene first = new Scene()
-            //{
-            //    used_characters = new string[] { "Monika", "Lilly" },
-            //    used_backgrouds = new string[] { "Class1.png","Class2.png" },
-            //    used_sprites = new string[2][] { new string[] { "Default.png", "Teaching_sad.png" }, new string[] { "lilly_basic_cheerful.png" } }
+            List<Frame> frames = new List<Frame>();
+            frames.Add(new Frame()
+            {
+                text = "Привет всем. Это первый самостоятельный фрейм",
+                character = "Monika",
+                background = "Class1.png"
+            });
+            frames[0].sprites.Add("Monika", "Default.png");
+            frames.Add(new Frame()
+            {
+                text = "А это уже второй",
+                character = "Lilly",
+                background = "Class1.png"
+            });
+            frames[1].sprites.Add("Lilly", "lilly_basic_cheerful.png");
+            //Синтетическая сцена
+            Scene first = new Scene()
+            {
+                used_characters = new string[] { "Monika", "Lilly" },
+                used_backgrouds = new string[] { "Class1.png", "Class2.png" },
+                used_sprites = new string[2][] { new string[] { "Default.png", "Teaching_sad.png" }, new string[] { "lilly_basic_cheerful.png" } }
 
-            //};
-            //first.frames = frames.ToArray();
-            //SaveSceneFile("script.txt", first);
-
-            Scene loadScene = LoadSceneFile("script.txt");
+            };
+            first.frames = frames.ToArray();
+            SaveSceneFile("script.txt", first);
+     
+            curr_scene = LoadSceneFile("script.txt");
 
             Dictionary<string, Character> characters = new Dictionary<string, Character>();
-            CharactersSetup(loadScene, characters);
-            BackgroundsSetup(loadScene, backgrouds);
-            Image char1 = new Image();
-            string frame_char = loadScene.frames[0].character;
-            string char_sprite = loadScene.frames[0].sprites[frame_char];
-            BackgroundImage.Source = characters[frame_char].sprites[char_sprite];
-           
-           
+            CharactersSetup(curr_scene, characters);
+            BackgroundsSetup(curr_scene, backgrouds);
+            string frame_char = curr_scene.frames[0].character;
+            string char_sprite = curr_scene.frames[0].sprites[frame_char];
+            BitmapImage char_image = characters[frame_char].sprites[char_sprite];
+            BackgroundImage.Source = char_image;
+
         }
         void CharactersSetup(Scene scene, Dictionary<string, Character> characters)
         {
