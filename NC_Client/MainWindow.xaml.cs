@@ -34,6 +34,8 @@ namespace NC_Client
         public MainWindow()
         {
             InitializeComponent();
+            List<string> list = new List<string>(new string[] { "Hi" });
+            String[] myArr = (String[])list.ToArray();
         }
 
         //List<string> images = new List<string>() { "Default.png", "Class1.png" };
@@ -61,6 +63,8 @@ namespace NC_Client
                     stream.Write($"{images}@{script}");
                 }
             }
+            
+
         }
         void LoadScriptFile(out List<string> images, out List<Frame> script, string path)
         {
