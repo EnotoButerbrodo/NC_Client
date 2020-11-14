@@ -37,13 +37,12 @@ namespace NC_Client
         }
 
         #region Variables
-        List<BitmapImage> backgrounds = new List<BitmapImage>();
-        List<string> needImages = new List<string>();
-        List<BitmapImage> scene_images = new List<BitmapImage>();
-        SettingsFile settings = new SettingsFile();
-
-        List<Frame> test_scene = new List<Frame>();
         
+        SettingsFile settings = new SettingsFile();
+        Dictionary<string, BitmapImage> backgrouds = new Dictionary<string, BitmapImage>();
+        Scene curr_scene;
+
+
         #endregion
 
 
@@ -187,31 +186,51 @@ namespace NC_Client
             Scene first = new Scene()
             {
                 used_characters = new string[] { "Monika", "Lilly" },
-                used_backgrouds = new string[] { "Class1.png" },
-                used_sprites = new string[2][] { new string[] { "Default.png","Teaching_sad.png" }, new string[] {"lilly_basic_cheerful.png"} }
+                used_backgrouds = new string[] { "Class1.png","Class2.png" },
+                used_sprites = new string[2][] { new string[] { "Default.png", "Teaching_sad.png" }, new string[] { "lilly_basic_cheerful.png" } }
 
             };
             first.frames = frames.ToArray();
             SaveSceneFile("script.txt", first);
             Scene loadScene = LoadSceneFile("script.txt");
             List<Character> characters = new List<Character>();
-            
-            foreach(string char_name in loadScene.used_characters)
+
+            //foreach (string char_name in loadScene.used_characters)
+            //{
+            //    characters.Add(new Character()
+            //    {
+            //        name = char_name
+            //    });
+            //    foreach (string sprite in loadScene.used_sprites[characters.Count - 1])
+            //    {
+            //        BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+            //            sprite).toBitmapImage();
+            //        characters[characters.Count - 1].sprites.Add(sprite, image);
+            //    }
+            //}
+            CharactersSetup(loadScene, characters);
+            TextBlock.Text = loadScene.frames[0].text;
+
+            BackgroundImage.Source = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                loadScene.frames[0].background).toBitmapImage();
+        }
+        public void CharactersSetup(Scene scene, List<Character> characters)
+        {
+            characters.Clear();
+            foreach (string char_name in scene.used_characters)
             {
                 characters.Add(new Character()
                 {
                     name = char_name
                 });
-                foreach(string sprite in loadScene.used_sprites[characters.Count - 1])
+                foreach (string sprite in scene.used_sprites[characters.Count-1])
                 {
                     BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                         sprite).toBitmapImage();
                     characters[characters.Count - 1].sprites.Add(sprite, image);
                 }
             }
-            TextBlock.Text = loadScene.frames[0].text;
         }
-
 
     }
 }
