@@ -34,12 +34,8 @@ namespace NC_Client
         public MainWindow()
         {
             InitializeComponent();
-            List<string> list = new List<string>(new string[] { "Hi" });
-            String[] myArr = (String[])list.ToArray();
         }
 
-        //List<string> images = new List<string>() { "Default.png", "Class1.png" };
-        //static string[] chars = new string[] { "Monika", "Sayori" };
         #region Variables
         List<BitmapImage> backgrounds = new List<BitmapImage>();
         List<string> needImages = new List<string>();
@@ -52,7 +48,7 @@ namespace NC_Client
 
 
         #region Metods
-        void SaveScriptFile(string path, Scene scene)
+        void SaveSceneFile(string path, Scene scene)
         {
             using(var fs = File.Open(path, FileMode.OpenOrCreate))
             {
@@ -63,14 +59,14 @@ namespace NC_Client
                 }
             }
         }
-        Scene LoadScriptFile(string path)
+        Scene LoadSceneFile(string path)
         {
-            string file;
+            
             using (FileStream fs = File.Open(path, FileMode.Open))
             {
                 using (var reader = new StreamReader(fs))
                 {
-                    file = reader.ReadToEnd();
+                    string file = reader.ReadToEnd();
                     return JsonSerializer.Deserialize<Scene>(file);
                 }
             }
@@ -134,9 +130,6 @@ namespace NC_Client
             throw new Exception("Файл не найден");
         }
 
-        //Сформировать строку из сериализованного листа использованных картинок и листа фреймов
-        //Десиализовать обратно и разбить строку обратно на два листа
-
         void SaveList(List<string> image_list)
         {
             string save_config = JsonSerializer.Serialize(image_list);
@@ -177,13 +170,47 @@ namespace NC_Client
                 Monika.sprites.Add(file, image);
                 BackgroundImage.Source = Monika.sprites[file];
             }
-            
-
         }
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
+            //Синтетическое создание сцены
+            //Синтетический фрейм
+            List<Frame> frames = new List<Frame>();
+            frames.Add(new Frame()
+            {
+                text = "Привет всем. Это первый самостоятельный фрейм",
+                character = "Monika",
+                background = "Class1.png"
+            });
+            frames[0].sprites.Add("Monika", "Default.png");
+            //Синтетическая сцена
+            Scene first = new Scene()
+            {
+                used_characters = new string[] { "Monika" },
+                used_backgrouds = new string[] { "Class1.png" },
+                used_sprites = new string[1][] { new string[1] { "Default.png" } }
+                
+            };
+            first.frames = frames.ToArray();
+            SaveSceneFile("script.txt", first);
+            Scene loadScene = LoadSceneFile("script.txt");
+            List<Character> characters = new List<Character>();
             
-            SaveScriptFile(images, script,"script1.txt");
+            foreach(string char_name in loadScene.used_characters)
+            {
+                characters.Add(new Character()
+                {
+                    name = char_name
+                });
+                foreach(string sprite in loadScene.used_sprites[characters.Count - 1])
+                {
+                    BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                        sprite).toBitmapImage();
+                    characters[characters.Count - 1].sprites.Add(sprite, image);
+
+                }
+            }
+            BackgroundImage.Source = characters[0].sprites["Default.png"];
         }
 
 

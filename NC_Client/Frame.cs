@@ -10,7 +10,7 @@ namespace NC_Client
     {
         public string text { get; set; }
         public string character { get; set; }
-        public Dictionary<string, string> sprites { get; set; }
+        public Dictionary<string, string> sprites { get; set; } = new Dictionary<string, string>();
         public string background { get; set; }
 
     }

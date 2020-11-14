@@ -15,6 +15,5 @@ namespace NC_Client
         public Dictionary<string, BitmapImage> sprites = new Dictionary<string, BitmapImage>();
         public Point position { get; set; }
         public double size { get; set; }
-
     }
 }
