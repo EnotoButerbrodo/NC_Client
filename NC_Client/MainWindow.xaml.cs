@@ -186,10 +186,10 @@ namespace NC_Client
             //Синтетическая сцена
             Scene first = new Scene()
             {
-                used_characters = new string[] { "Monika" },
+                used_characters = new string[] { "Monika", "Lilly" },
                 used_backgrouds = new string[] { "Class1.png" },
-                used_sprites = new string[1][] { new string[1] { "Default.png" } }
-                
+                used_sprites = new string[2][] { new string[1] { "Default.png" }, new string[1] {"lilly_basic_cheerful.png"} }
+
             };
             first.frames = frames.ToArray();
             SaveSceneFile("script.txt", first);
@@ -207,10 +207,9 @@ namespace NC_Client
                     BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                         sprite).toBitmapImage();
                     characters[characters.Count - 1].sprites.Add(sprite, image);
-
                 }
             }
-            BackgroundImage.Source = characters[0].sprites["Default.png"];
+            BackgroundImage.Source = characters[1].sprites["lilly_basic_cheerful.png"];
         }
 
 
