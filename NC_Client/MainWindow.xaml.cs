@@ -178,34 +178,36 @@ namespace NC_Client
         {
             //Синтетическое создание сцены
             //Синтетический фрейм
-            List<Frame> frames = new List<Frame>();
-            frames.Add(new Frame()
-            {
-                text = "Привет всем. Это первый самостоятельный фрейм",
-                character = "Monika",
-                background = "Class1.png"
-            });
-            frames[0].sprites.Add("Monika", "Default.png");
-            //Синтетическая сцена
-            Scene first = new Scene()
-            {
-                used_characters = new string[] { "Monika", "Lilly" },
-                used_backgrouds = new string[] { "Class1.png","Class2.png" },
-                used_sprites = new string[2][] { new string[] { "Default.png", "Teaching_sad.png" }, new string[] { "lilly_basic_cheerful.png" } }
+            //List<Frame> frames = new List<Frame>();
+            //frames.Add(new Frame()
+            //{
+            //    text = "Привет всем. Это первый самостоятельный фрейм",
+            //    character = "Monika",
+            //    background = "Class1.png"
+            //});
+            //frames[0].sprites.Add("Monika", "Default.png");
+            ////Синтетическая сцена
+            //Scene first = new Scene()
+            //{
+            //    used_characters = new string[] { "Monika", "Lilly" },
+            //    used_backgrouds = new string[] { "Class1.png","Class2.png" },
+            //    used_sprites = new string[2][] { new string[] { "Default.png", "Teaching_sad.png" }, new string[] { "lilly_basic_cheerful.png" } }
 
-            };
-            first.frames = frames.ToArray();
-            SaveSceneFile("script.txt", first);
+            //};
+            //first.frames = frames.ToArray();
+            //SaveSceneFile("script.txt", first);
+
             Scene loadScene = LoadSceneFile("script.txt");
-            List<Character> characters = new List<Character>();
 
+            List<Character> characters = new List<Character>();
             CharactersSetup(loadScene, characters);
             BackgroundsSetup(loadScene, backgrouds);
-            //TextBlock.Text = loadScene.frames[0].text;
-
-            //BackgroundImage.Source = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-            //    loadScene.frames[0].background).toBitmapImage();
-            BackgroundImage.Source = backgrouds["Class1.png"];
+            Image char1 = new Image();
+            string frame_char = loadScene.frames[0].character;
+            string char_sprite = loadScene.frames[0].sprites[frame_char];
+            BackgroundImage.Source = characters[0].sprites[char_sprite];
+           
+           
         }
         void CharactersSetup(Scene scene, List<Character> characters)
         {
