@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace NC_Client
 {
+    [Serializable]
     public class Character
     {
         public string name { get; set; }

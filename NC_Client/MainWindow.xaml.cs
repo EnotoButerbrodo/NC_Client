@@ -52,37 +52,28 @@ namespace NC_Client
 
 
         #region Metods
-        void SaveScriptFile(List<string> images_list, List<Frame> script_list, string path)
+        void SaveScriptFile(string path, Scene scene)
         {
-            string images = JsonSerializer.Serialize(images_list);
-            string script = JsonSerializer.Serialize(script_list);
             using(var fs = File.Open(path, FileMode.OpenOrCreate))
             {
-                using(var stream = new StreamWriter(fs))
+                string ser_scene = JsonSerializer.Serialize(scene);
+                using(var writer = new StreamWriter(fs))
                 {
-                    stream.Write($"{images}@{script}");
+                    writer.Write(ser_scene);
                 }
             }
-            
-
         }
-        void LoadScriptFile(out List<string> images, out List<Frame> script, string path)
+        Scene LoadScriptFile(string path)
         {
-            string file, im, sc;
+            string file;
             using (FileStream fs = File.Open(path, FileMode.Open))
             {
                 using (var reader = new StreamReader(fs))
                 {
                     file = reader.ReadToEnd();
+                    return JsonSerializer.Deserialize<Scene>(file);
                 }
             }
-            int buff = file.IndexOf('@');
-            im = file.Remove(buff);
-            sc = file.Remove(0, buff+1);
-
-            images = JsonSerializer.Deserialize<List<string>>(im);
-
-            script = JsonSerializer.Deserialize<List<Frame>>(sc);
         }
 
         SettingsFile LoadConfig()
@@ -191,45 +182,7 @@ namespace NC_Client
         }
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
-            List<string> images = new List<string>(
-                new string[]
-                {
-                    "Class1.png",
-                    "Class2.png",
-                    "Closet1.png",
-                    "Koridor.png",
-                    "Default.png",
-                    "Flirty.png"
-                }
-                );
-            List<Frame> script = new List<Frame>();
-            script.Add(new Frame()
-            {
-                background = "Class1.png",
-                character = "Monika",
-                position = new Point(0, 0),
-                sprite = "Default.png",
-                text = "Приветик"
-
-            });
-            script.Add(new Frame()
-            {
-                background = "Class1.png",
-                character = "Monika",
-                position = new Point(0, 0),
-                sprite = "Flirty.png",
-                text = "Зая"
-
-            });
-            script.Add(new Frame()
-            {
-                background = "Class2.png",
-                character = "Monika",
-                position = new Point(0, 0),
-                sprite = "Flirty.png",
-                text = "Ой, где это я?"
-
-            });
+            
             SaveScriptFile(images, script,"script1.txt");
         }
 
