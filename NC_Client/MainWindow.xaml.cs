@@ -209,7 +209,7 @@ namespace NC_Client
                     characters[characters.Count - 1].sprites.Add(sprite, image);
                 }
             }
-            
+            TextBlock.Text = loadScene.frames[0].text;
         }
 
 

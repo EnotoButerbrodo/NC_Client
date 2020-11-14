@@ -34,7 +34,7 @@ namespace NC_Client.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("848")]
+        [global::System.Configuration.DefaultSettingValueAttribute("847")]
         public int WindowWidth {
             get {
                 return ((int)(this["WindowWidth"]));

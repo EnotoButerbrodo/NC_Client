@@ -5,17 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NC_Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="480" Width="854" ResizeMode="CanMinimize">
+        Title="MainWindow" Height="480" Width="847" ResizeMode="CanMinimize">
     <Grid x:Name="Main">
         <Image Name="BackgroundImage" Grid.Column="0" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Fill"/>
         <Button Content="Button" HorizontalAlignment="Left" Margin="739,325,0,0" VerticalAlignment="Top" Click="Button_Click" Panel.ZIndex="1"/>
-        <Button Content="Button2" HorizontalAlignment="Left" Margin="798,330,0,0" VerticalAlignment="Top" Click="Button_Click2" Panel.ZIndex="1"/>
+        <Button Content="Button2" HorizontalAlignment="Left" Margin="791,325,0,0" VerticalAlignment="Top" Click="Button_Click2" Panel.ZIndex="1"/>
         <Grid x:Name="Interface" Panel.ZIndex="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="1" Background="Coral"/>
+            <TextBlock x:Name="TextBlock" Grid.Row="1" Background="Coral" Opacity="0.6"/>
         </Grid>
     </Grid>
 
