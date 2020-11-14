@@ -199,32 +199,31 @@ namespace NC_Client
 
             Scene loadScene = LoadSceneFile("script.txt");
 
-            List<Character> characters = new List<Character>();
+            Dictionary<string, Character> characters = new Dictionary<string, Character>();
             CharactersSetup(loadScene, characters);
             BackgroundsSetup(loadScene, backgrouds);
             Image char1 = new Image();
             string frame_char = loadScene.frames[0].character;
             string char_sprite = loadScene.frames[0].sprites[frame_char];
-            BackgroundImage.Source = characters[0].sprites[char_sprite];
+            BackgroundImage.Source = characters[frame_char].sprites[char_sprite];
            
            
         }
-        void CharactersSetup(Scene scene, List<Character> characters)
+        void CharactersSetup(Scene scene, Dictionary<string, Character> characters)
         {
             characters.Clear();
             foreach (string char_name in scene.used_characters)
             {
-                characters.Add(new Character()
-                {
-                    name = char_name,
-                    nameColor = nameColor[char_name]
-
-                });
-                foreach (string sprite in scene.used_sprites[characters.Count-1])
+                characters.Add(char_name, new Character()
+                    {
+                        name = char_name,
+                        nameColor = nameColor[char_name]
+                    });
+                foreach (var sprite in scene.used_sprites[characters.Count-1])
                 {
                     BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                         sprite).toBitmapImage();
-                    characters[characters.Count - 1].sprites.Add(sprite, image);
+                    characters[char_name].sprites.Add(sprite, image);
                 }
             }
         }
