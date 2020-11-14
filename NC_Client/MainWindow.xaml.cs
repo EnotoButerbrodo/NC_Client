@@ -214,7 +214,9 @@ namespace NC_Client
             {
                 characters.Add(new Character()
                 {
-                    name = char_name
+                    name = char_name,
+                    nameColor = nameColor[char_name]
+
                 });
                 foreach (string sprite in scene.used_sprites[characters.Count-1])
                 {

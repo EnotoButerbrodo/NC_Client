@@ -11,7 +11,7 @@ namespace NC_Client
     public class Character
     {
         public string name { get; set; }
-        public Brushes nameColor { get; set; }
+        public SolidColorBrush nameColor { get; set; }
         public Dictionary<string, BitmapImage> sprites = new Dictionary<string, BitmapImage>();
         public Point position { get; set; }
         public double size { get; set; }
