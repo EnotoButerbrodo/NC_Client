@@ -37,11 +37,15 @@ namespace NC_Client
         }
 
         #region Variables
-        
+
         SettingsFile settings = new SettingsFile();
         Dictionary<string, BitmapImage> backgrouds = new Dictionary<string, BitmapImage>();
         Scene curr_scene;
-
+        Dictionary<string, SolidColorBrush> nameColor = new Dictionary<string, SolidColorBrush>()
+        {
+            ["Monika"] = Brushes.Red,
+            ["Lilly"] = Brushes.Green
+        };
 
         #endregion
 
@@ -195,26 +199,15 @@ namespace NC_Client
             Scene loadScene = LoadSceneFile("script.txt");
             List<Character> characters = new List<Character>();
 
-            //foreach (string char_name in loadScene.used_characters)
-            //{
-            //    characters.Add(new Character()
-            //    {
-            //        name = char_name
-            //    });
-            //    foreach (string sprite in loadScene.used_sprites[characters.Count - 1])
-            //    {
-            //        BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-            //            sprite).toBitmapImage();
-            //        characters[characters.Count - 1].sprites.Add(sprite, image);
-            //    }
-            //}
             CharactersSetup(loadScene, characters);
-            TextBlock.Text = loadScene.frames[0].text;
+            BackgroundsSetup(loadScene, backgrouds);
+            //TextBlock.Text = loadScene.frames[0].text;
 
-            BackgroundImage.Source = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-                loadScene.frames[0].background).toBitmapImage();
+            //BackgroundImage.Source = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+            //    loadScene.frames[0].background).toBitmapImage();
+            BackgroundImage.Source = backgrouds["Class1.png"];
         }
-        public void CharactersSetup(Scene scene, List<Character> characters)
+        void CharactersSetup(Scene scene, List<Character> characters)
         {
             characters.Clear();
             foreach (string char_name in scene.used_characters)
@@ -229,6 +222,16 @@ namespace NC_Client
                         sprite).toBitmapImage();
                     characters[characters.Count - 1].sprites.Add(sprite, image);
                 }
+            }
+        }
+        void BackgroundsSetup(Scene scene, Dictionary<string, BitmapImage> backgrouds)
+        {
+            backgrouds.Clear();
+            foreach(string sprite in scene.used_backgrouds)
+            {
+                BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                        sprite).toBitmapImage();
+                backgrouds.Add(sprite, image);
             }
         }
 
