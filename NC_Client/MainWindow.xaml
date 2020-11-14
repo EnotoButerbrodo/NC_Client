@@ -10,6 +10,10 @@
         <Image Name="BackgroundImage" Grid.Column="0" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Fill"/>
         <Button Content="Button" HorizontalAlignment="Left" Margin="739,325,0,0" VerticalAlignment="Top" Click="Button_Click" Panel.ZIndex="1"/>
         <Button Content="Button2" HorizontalAlignment="Left" Margin="791,325,0,0" VerticalAlignment="Top" Click="Button_Click2" Panel.ZIndex="1"/>
+        <Canvas x:Name="Characters_place" Background="Black" Grid.Row="0" Grid.Column="0">
+
+        </Canvas>
+
         <Grid x:Name="Interface" Panel.ZIndex="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
