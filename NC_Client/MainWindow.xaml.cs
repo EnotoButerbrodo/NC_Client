@@ -163,49 +163,65 @@ namespace NC_Client
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ChangeFrame(curr_scene, curr_frame++%2);
+            ChangeFrame(curr_scene, curr_frame++%4);
         }
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
             //Синтетическое создание сцены
             //Синтетический фрейм
 
-            //List<Frame> frames = new List<Frame>();
-            //frames.Add(new Frame()
-            //{
-            //    text = "Привет всем. Это первый самостоятельный фрейм",
-            //    character = "Monika",
-            //    background = "Class1.png",
-                
-            //});
-            //frames[0].sprites.Add("Monika", "Default.png");
-            //frames[0].chacters_size.Add("Monika", 1.0);
-            //frames.Add(new Frame()
-            //{
-            //    text = "А это уже второй",
-            //    character = "Monika",
-            //    background = "Class1.png",
-            //});
-            //frames[1].sprites.Add("Monika", "Teaching_sad.png");
-            //frames[1].chacters_size.Add("Monika", 1.0);
-            ////Синтетическая сцена
-            //Scene first = new Scene()
-            //{
-            //    name = "FirstScene",
-            //    used_characters = new string[] { "Monika", "Lilly" },
-            //    used_backgrouds = new string[] { "Class1.png", "Class2.png" },
-            //    used_sprites = new string[2][] { new string[] { "Default.png", "Teaching_sad.png" }, new string[] { "lilly_basic_cheerful.png" } }
+            List<Frame> frames = new List<Frame>();
+            frames.Add(new Frame()
+            {
+                text = "Привет всем. Это первый самостоятельный фрейм",
+                character = "Monika",
+                background = "Class1.png",
 
-            //};
-            //first.frames = frames.ToArray();
-            //SaveSceneFile("script.txt", first);
-     
+            });
+            frames[0].sprites.Add("Monika", "Default.png");
+            frames[0].chacters_size.Add("Monika", 1.0);
+            frames.Add(new Frame()
+            {
+                text = "А это уже второй",
+                character = "Monika",
+                background = "Class2.png",
+            });
+            frames[1].sprites.Add("Monika", "Teaching_sad.png");
+            frames[1].chacters_size.Add("Monika", 1.0);
+            frames.Add(new Frame()
+            {
+                text = "Привет всем. Это первый самостоятельный фрейм",
+                character = "Monika",
+                background = "Class1.png",
+
+            });
+            frames[2].sprites.Add("Monika", "Default.png");
+            frames[2].chacters_size.Add("Monika", 1.0);
+            frames.Add(new Frame()
+            {
+                text = "А это уже второй",
+                character = "Monika",
+                background = "Class1.png",
+            });
+            frames[3].sprites.Add("Monika", "Teaching_sad.png");
+            frames[3].chacters_size.Add("Monika", 1.0);
+            //Синтетическая сцена
+            Scene first = new Scene()
+            {
+                name = "FirstScene",
+                used_characters = new string[] { "Monika", "Lilly" },
+                used_backgrouds = new string[] { "Class1.png", "Class2.png" },
+                used_sprites = new string[2][] { new string[] { "Default.png", "Teaching_sad.png" }, new string[] { "lilly_basic_cheerful.png" } }
+
+            };
+            first.frames = frames.ToArray();
+            SaveSceneFile("script.txt", first);
+
             curr_scene = LoadSceneFile("script.txt");
 
             
             CharactersSetup(curr_scene);
             BackgroundsSetup(curr_scene);
-            ChangeFrame(curr_scene, 0);
 
 
         }
@@ -233,10 +249,10 @@ namespace NC_Client
         {
             character.image.BeginInit();
             character.image.Width = character.image.Width;
-            character.image.Width = 300;
+            character.image.Width = 400;
             character.image.Height = character.image.Height;
-            character.image.Height = 300;
-            Canvas.SetLeft(character.image, character.position.X);
+            character.image.Height = 400;
+            Canvas.SetLeft(character.image, character.position.X+250);
             Canvas.SetBottom(character.image, character.position.Y);
             character.image.Stretch = Stretch.Fill;
             character.image.EndInit();
