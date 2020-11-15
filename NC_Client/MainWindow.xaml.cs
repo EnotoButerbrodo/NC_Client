@@ -216,18 +216,6 @@ namespace NC_Client
             string frame_char = curr_scene.frames[0].character;
             string char_sprite = curr_scene.frames[0].sprites[frame_char];
             BitmapImage char_image = characters[frame_char].sprites[char_sprite];
-            // BackgroundImage.Source = char_image;
-            //characters[frame_char].position = new Point(-100,0);
-            //Image im = new Image();
-            //im.BeginInit();
-            //im.Name = "char";
-            //im.Width = char_image.Width / (characters[frame_char].size+3);
-            //im.Height = char_image.Height / (characters[frame_char].size + 3);
-            //Canvas.SetLeft(im, characters[frame_char].position.X);
-            //Canvas.SetBottom(im, characters[frame_char].position.Y);
-            //im.Stretch = Stretch.Fill;  
-            //im.Source = char_image;
-            //im.EndInit();
             Characters_place.Children.Add(characters[frame_char].image);
             characters[frame_char].image.Source = char_image;
 
@@ -243,6 +231,8 @@ namespace NC_Client
                         name = char_name,
                         nameColor = nameColor[char_name]
                     });
+                CreateImageForCharacter(characters[char_name]);
+
                 foreach (var sprite in scene.used_sprites[characters.Count-1])
                 {
                     BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
@@ -250,10 +240,7 @@ namespace NC_Client
                     characters[char_name].sprites.Add(sprite, image);
                 }
             }
-            foreach(var chara in characters)
-            {
-                CreateImageForCharacter(chara.Value);
-            }
+           
         }
         void CreateImageForCharacter(Character character)
         {
