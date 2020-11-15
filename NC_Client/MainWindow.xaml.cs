@@ -215,10 +215,6 @@ namespace NC_Client
             
             CharactersSetup(curr_scene, characters);
             BackgroundsSetup(curr_scene, backgrouds);
-            string frame_char = curr_scene.frames[0].character;
-            string char_sprite = curr_scene.frames[0].sprites[frame_char];
-            BitmapImage char_image = characters[frame_char].sprites[char_sprite];
-            Characters_place.Children.Add(characters[frame_char].image);
             ChangeFrame(1);
 
 
@@ -253,6 +249,7 @@ namespace NC_Client
             Canvas.SetBottom(character.image, character.position.Y);
             character.image.Stretch = Stretch.Fill;
             character.image.EndInit();
+            Characters_place.Children.Add(character.image);
         }
         void BackgroundsSetup(Scene scene, Dictionary<string, BitmapImage> backgrouds)
         {
