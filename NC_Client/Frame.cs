@@ -17,6 +17,7 @@ namespace NC_Client
         public Dictionary<string, double> chacters_size { get; set; }
         public Dictionary<string, string> sprites { get; set; } = new Dictionary<string, string>();
         public string background { get; set; }
+      
         
 
     }

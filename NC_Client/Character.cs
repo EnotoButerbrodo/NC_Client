@@ -26,6 +26,10 @@ namespace NC_Client
         public Point position { get; set; }
         public double size { get; set; }
         public Image image { get; set; }
+        public void SetImage(string sprite)
+        {
+            image.Source = sprites[sprite];
+        }
 
     }
 }

@@ -12,5 +12,20 @@ namespace NC_Client
         public string[][] used_sprites { get; set; }
         public string[] used_backgrouds { get; set; }
         public Frame[] frames { get; set; }
+        public int Length
+        {
+            get
+            {
+                return frames.Length;
+            }
+        }
+
+        public Frame this[int number]
+        {
+            get
+            {
+                return frames[number];
+            }
+        }
     }
 }

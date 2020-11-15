@@ -40,12 +40,14 @@ namespace NC_Client
 
         SettingsFile settings = new SettingsFile();
         Dictionary<string, BitmapImage> backgrouds = new Dictionary<string, BitmapImage>();
+        Dictionary<string, Character> characters = new Dictionary<string, Character>();
         Scene curr_scene;
         Dictionary<string, SolidColorBrush> nameColor = new Dictionary<string, SolidColorBrush>()
         {
             ["Monika"] = Brushes.Red,
             ["Lilly"] = Brushes.Green
         };
+        int curr_frame=0;
 
         #endregion
 
@@ -210,14 +212,14 @@ namespace NC_Client
      
             curr_scene = LoadSceneFile("script.txt");
 
-            Dictionary<string, Character> characters = new Dictionary<string, Character>();
+            
             CharactersSetup(curr_scene, characters);
             BackgroundsSetup(curr_scene, backgrouds);
             string frame_char = curr_scene.frames[0].character;
             string char_sprite = curr_scene.frames[0].sprites[frame_char];
             BitmapImage char_image = characters[frame_char].sprites[char_sprite];
             Characters_place.Children.Add(characters[frame_char].image);
-            characters[frame_char].image.Source = char_image;
+            ChangeFrame(1);
 
 
         }
@@ -263,5 +265,16 @@ namespace NC_Client
             }
         }
 
+        void ChangeFrame(int frame)
+        {
+
+            string frame_backgroud = curr_scene[frame].background;
+            BitmapImage background_image = backgrouds[frame_backgroud];
+            BackgroundImage.Source = background_image;
+            foreach(var character in curr_scene[frame].sprites)
+            {
+                characters[character.Key].SetImage(character.Value);  
+            }
+        }
     }
 }
