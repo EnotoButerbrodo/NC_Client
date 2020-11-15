@@ -183,19 +183,23 @@ namespace NC_Client
             {
                 text = "Привет всем. Это первый самостоятельный фрейм",
                 character = "Monika",
-                background = "Class1.png"
+                background = "Class1.png",
+                
             });
             frames[0].sprites.Add("Monika", "Default.png");
+            frames[0].chacters_size.Add("Monika", 1.0);
             frames.Add(new Frame()
             {
                 text = "А это уже второй",
                 character = "Lilly",
-                background = "Class1.png"
+                background = "Class1.png",
             });
             frames[1].sprites.Add("Lilly", "lilly_basic_cheerful.png");
+            frames[1].chacters_size.Add("Lilly", 1.0);
             //Синтетическая сцена
             Scene first = new Scene()
             {
+                name = "FirstScene",
                 used_characters = new string[] { "Monika", "Lilly" },
                 used_backgrouds = new string[] { "Class1.png", "Class2.png" },
                 used_sprites = new string[2][] { new string[] { "Default.png", "Teaching_sad.png" }, new string[] { "lilly_basic_cheerful.png" } }
@@ -213,19 +217,20 @@ namespace NC_Client
             string char_sprite = curr_scene.frames[0].sprites[frame_char];
             BitmapImage char_image = characters[frame_char].sprites[char_sprite];
             // BackgroundImage.Source = char_image;
-            characters[frame_char].position = new Point(-100,0);
-            Image im = new Image();
-            im.BeginInit();
-            im.Name = "char";
-            im.Width = char_image.Width / (characters[frame_char].size+3);
-            im.Height = char_image.Height / (characters[frame_char].size + 3);
-            Canvas.SetLeft(im, characters[frame_char].position.X);
-            Canvas.SetBottom(im, characters[frame_char].position.Y);
-            im.Stretch = Stretch.Fill;  
-            im.Source = char_image;
-            im.EndInit();
-            Characters_place.Children.Add(im);
-            
+            //characters[frame_char].position = new Point(-100,0);
+            //Image im = new Image();
+            //im.BeginInit();
+            //im.Name = "char";
+            //im.Width = char_image.Width / (characters[frame_char].size+3);
+            //im.Height = char_image.Height / (characters[frame_char].size + 3);
+            //Canvas.SetLeft(im, characters[frame_char].position.X);
+            //Canvas.SetBottom(im, characters[frame_char].position.Y);
+            //im.Stretch = Stretch.Fill;  
+            //im.Source = char_image;
+            //im.EndInit();
+            Characters_place.Children.Add(characters[frame_char].image);
+            characters[frame_char].image.Source = char_image;
+
 
         }
         void CharactersSetup(Scene scene, Dictionary<string, Character> characters)
@@ -245,6 +250,20 @@ namespace NC_Client
                     characters[char_name].sprites.Add(sprite, image);
                 }
             }
+            foreach(var chara in characters)
+            {
+                CreateImageForCharacter(chara.Value);
+            }
+        }
+        void CreateImageForCharacter(Character character)
+        {
+            character.image.BeginInit();
+            character.image.Width = character.image.Width;
+            character.image.Height = character.image.Height;
+            Canvas.SetLeft(character.image, character.position.X);
+            Canvas.SetBottom(character.image, character.position.Y);
+            character.image.Stretch = Stretch.Fill;
+            character.image.EndInit();
         }
         void BackgroundsSetup(Scene scene, Dictionary<string, BitmapImage> backgrouds)
         {
