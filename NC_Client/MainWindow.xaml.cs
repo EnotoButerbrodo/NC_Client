@@ -163,18 +163,7 @@ namespace NC_Client
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            List<string> needImage = new List<string>();
-            needImage.AddRange(new string[] { "Class1.png", "Class2.png","Default.png" });
-            BitmapImage image;
-            Dictionary<string, BitmapImage> dic = new Dictionary<string, BitmapImage>();
-            Character Monika = new Character();
-            foreach (string file in needImage)
-            {
-                image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-                file).toBitmapImage();
-                Monika.sprites.Add(file, image);
-                BackgroundImage.Source = Monika.sprites[file];
-            }
+            ChangeFrame(1);
         }
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
@@ -193,11 +182,11 @@ namespace NC_Client
             frames.Add(new Frame()
             {
                 text = "А это уже второй",
-                character = "Lilly",
+                character = "Monika",
                 background = "Class1.png",
             });
-            frames[1].sprites.Add("Lilly", "lilly_basic_cheerful.png");
-            frames[1].chacters_size.Add("Lilly", 1.0);
+            frames[1].sprites.Add("Monika", "Teaching_sad.png");
+            frames[1].chacters_size.Add("Monika", 1.0);
             //Синтетическая сцена
             Scene first = new Scene()
             {
@@ -215,7 +204,7 @@ namespace NC_Client
             
             CharactersSetup(curr_scene, characters);
             BackgroundsSetup(curr_scene, backgrouds);
-            ChangeFrame(1);
+            ChangeFrame(0);
 
 
         }
