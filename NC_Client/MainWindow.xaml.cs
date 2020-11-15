@@ -163,103 +163,105 @@ namespace NC_Client
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ChangeFrame(1);
+            ChangeFrame(curr_scene, curr_frame++%2);
         }
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
             //Синтетическое создание сцены
             //Синтетический фрейм
-            List<Frame> frames = new List<Frame>();
-            frames.Add(new Frame()
-            {
-                text = "Привет всем. Это первый самостоятельный фрейм",
-                character = "Monika",
-                background = "Class1.png",
-                
-            });
-            frames[0].sprites.Add("Monika", "Default.png");
-            frames[0].chacters_size.Add("Monika", 1.0);
-            frames.Add(new Frame()
-            {
-                text = "А это уже второй",
-                character = "Monika",
-                background = "Class1.png",
-            });
-            frames[1].sprites.Add("Monika", "Teaching_sad.png");
-            frames[1].chacters_size.Add("Monika", 1.0);
-            //Синтетическая сцена
-            Scene first = new Scene()
-            {
-                name = "FirstScene",
-                used_characters = new string[] { "Monika", "Lilly" },
-                used_backgrouds = new string[] { "Class1.png", "Class2.png" },
-                used_sprites = new string[2][] { new string[] { "Default.png", "Teaching_sad.png" }, new string[] { "lilly_basic_cheerful.png" } }
 
-            };
-            first.frames = frames.ToArray();
-            SaveSceneFile("script.txt", first);
+            //List<Frame> frames = new List<Frame>();
+            //frames.Add(new Frame()
+            //{
+            //    text = "Привет всем. Это первый самостоятельный фрейм",
+            //    character = "Monika",
+            //    background = "Class1.png",
+                
+            //});
+            //frames[0].sprites.Add("Monika", "Default.png");
+            //frames[0].chacters_size.Add("Monika", 1.0);
+            //frames.Add(new Frame()
+            //{
+            //    text = "А это уже второй",
+            //    character = "Monika",
+            //    background = "Class1.png",
+            //});
+            //frames[1].sprites.Add("Monika", "Teaching_sad.png");
+            //frames[1].chacters_size.Add("Monika", 1.0);
+            ////Синтетическая сцена
+            //Scene first = new Scene()
+            //{
+            //    name = "FirstScene",
+            //    used_characters = new string[] { "Monika", "Lilly" },
+            //    used_backgrouds = new string[] { "Class1.png", "Class2.png" },
+            //    used_sprites = new string[2][] { new string[] { "Default.png", "Teaching_sad.png" }, new string[] { "lilly_basic_cheerful.png" } }
+
+            //};
+            //first.frames = frames.ToArray();
+            //SaveSceneFile("script.txt", first);
      
             curr_scene = LoadSceneFile("script.txt");
 
             
-            CharactersSetup(curr_scene, characters);
-            BackgroundsSetup(curr_scene, backgrouds);
-            ChangeFrame(0);
+            CharactersSetup(curr_scene);
+            BackgroundsSetup(curr_scene);
+            ChangeFrame(curr_scene, 0);
 
 
         }
-        void CharactersSetup(Scene scene, Dictionary<string, Character> characters)
+        void CharactersSetup(Scene scene)
         {
-            characters.Clear();
+            scene.characters.Clear();
             foreach (string char_name in scene.used_characters)
             {
-                characters.Add(char_name, new Character()
+                scene.characters.Add(char_name, new Character()
                     {
                         name = char_name,
                         nameColor = nameColor[char_name]
                     });
-                CreateImageForCharacter(characters[char_name]);
+                CreateImageForCharacter(scene.characters[char_name]);
 
-                foreach (var sprite in scene.used_sprites[characters.Count-1])
+                foreach (var sprite in scene.used_sprites[scene.characters.Count-1])
                 {
                     BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                         sprite).toBitmapImage();
-                    characters[char_name].sprites.Add(sprite, image);
+                    scene.characters[char_name].sprites.Add(sprite, image);
                 }
             }
-           
         }
         void CreateImageForCharacter(Character character)
         {
             character.image.BeginInit();
             character.image.Width = character.image.Width;
+            character.image.Width = 300;
             character.image.Height = character.image.Height;
+            character.image.Height = 300;
             Canvas.SetLeft(character.image, character.position.X);
             Canvas.SetBottom(character.image, character.position.Y);
             character.image.Stretch = Stretch.Fill;
             character.image.EndInit();
             Characters_place.Children.Add(character.image);
         }
-        void BackgroundsSetup(Scene scene, Dictionary<string, BitmapImage> backgrouds)
+        void BackgroundsSetup(Scene scene)
         {
-            backgrouds.Clear();
+            scene.backgrouds.Clear();
             foreach(string sprite in scene.used_backgrouds)
             {
                 BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                         sprite).toBitmapImage();
-                backgrouds.Add(sprite, image);
+                scene.backgrouds.Add(sprite, image);
             }
         }
 
-        void ChangeFrame(int frame)
+        void ChangeFrame(Scene scene, int frame)
         {
 
-            string frame_backgroud = curr_scene[frame].background;
-            BitmapImage background_image = backgrouds[frame_backgroud];
+            string frame_backgroud = scene[frame].background;
+            BitmapImage background_image = scene.backgrouds[frame_backgroud];
             BackgroundImage.Source = background_image;
-            foreach(var character in curr_scene[frame].sprites)
+            foreach(var character in scene[frame].sprites)
             {
-                characters[character.Key].SetImage(character.Value);  
+                scene.characters[character.Key].SetImage(character.Value);  
             }
         }
     }
