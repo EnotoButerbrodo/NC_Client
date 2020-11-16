@@ -228,21 +228,15 @@ namespace NC_Client
         }
         void CharactersSetup(Scene scene)
         {
-            characters.Clear();
             foreach (string char_name in scene.used_characters)
             {
-                characters.Add(char_name, new Character()
-                    {
-                        name = char_name,
-                        nameColor = nameColor[char_name]
-                    });
-                resourses.characters.Add(char_name, new Character()
+
+                Character new_char = new Character()
                 {
                     name = char_name,
                     nameColor = nameColor[char_name]
-                });
-                CreateImageForCharacter(characters[char_name]);
-
+                };
+                CreateImageForCharacter(new_char);
                 foreach (var sprite in scene.used_sprites[characters.Count-1])
                 {
                     BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
@@ -255,9 +249,7 @@ namespace NC_Client
         void CreateImageForCharacter(Character character)
         {
             character.image.BeginInit();
-            character.image.Width = character.image.Width;
             character.image.Width = 400;
-            character.image.Height = character.image.Height;
             character.image.Height = 400;
             Canvas.SetLeft(character.image, character.position.X+250);
             Canvas.SetBottom(character.image, character.position.Y);

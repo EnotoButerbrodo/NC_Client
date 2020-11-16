@@ -17,13 +17,25 @@ namespace NC_Client
 
         public void AddCharacter(string name, Character character)
         {
-            if (characters.ContainsKey(name) | characters.ContainsValue(character)) return;
+            if(!CharacterInList(name, character))
             characters.Add(name, character);
+          
+        }
+        public bool CharacterInList(string name, Character character)
+        {
+            if (characters.ContainsKey(name) | characters.ContainsValue(character)) return true;
+            return false;
+
         }
         public void AddBackground(string name, BitmapImage image)
         {
-            if (backgrounds.ContainsKey(name) | backgrounds.ContainsValue(image)) return;
-            backgrounds.Add(name, image);
+            if (!BackgroundInList(name, image))
+                backgrounds.Add(name, image);
+        }
+        public bool BackgroundInList(string name, BitmapImage image)
+        {
+            if (backgrounds.ContainsKey(name) | backgrounds.ContainsValue(image)) return true;
+            return false;
         }
         public BitmapImage GetBackground(string name)
         {
