@@ -47,6 +47,7 @@ namespace NC_Client
             ["Monika"] = Brushes.Red,
             ["Lilly"] = Brushes.Green
         };
+        Resourses resourses = new Resourses();
         int curr_frame=0;
 
         #endregion
@@ -235,6 +236,11 @@ namespace NC_Client
                         name = char_name,
                         nameColor = nameColor[char_name]
                     });
+                resourses.characters.Add(char_name, new Character()
+                {
+                    name = char_name,
+                    nameColor = nameColor[char_name]
+                });
                 CreateImageForCharacter(characters[char_name]);
 
                 foreach (var sprite in scene.used_sprites[characters.Count-1])
@@ -242,6 +248,7 @@ namespace NC_Client
                     BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                         sprite).toBitmapImage();
                     characters[char_name].sprites.Add(sprite, image);
+                    
                 }
             }
         }
@@ -260,12 +267,12 @@ namespace NC_Client
         }
         void BackgroundsSetup(Scene scene)
         {
-            scene.backgrouds.Clear();
+            backgrouds.Clear();
             foreach(string sprite in scene.used_backgrouds)
             {
                 BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                         sprite).toBitmapImage();
-                scene.backgrouds.Add(sprite, image);
+                backgrouds.Add(sprite, image);
             }
         }
 
@@ -274,11 +281,11 @@ namespace NC_Client
         {
 
             string frame_backgroud = scene[frame].background;
-            BitmapImage background_image = scene.backgrouds[frame_backgroud];
+            BitmapImage background_image = backgrouds[frame_backgroud];
             BackgroundImage.Source = background_image;
             foreach(var character in scene[frame].sprites)
             {
-                scene.characters[character.Key].SetImage(character.Value);  
+                characters[character.Key].SetImage(character.Value);  
             }
         }
     }
