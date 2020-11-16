@@ -163,7 +163,7 @@ namespace NC_Client
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ChangeFrame(curr_scene, curr_frame++%4);
+            ChangeFrame(curr_scene, curr_frame++%curr_scene.Length);
         }
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
@@ -227,21 +227,21 @@ namespace NC_Client
         }
         void CharactersSetup(Scene scene)
         {
-            scene.characters.Clear();
+            characters.Clear();
             foreach (string char_name in scene.used_characters)
             {
-                scene.characters.Add(char_name, new Character()
+                characters.Add(char_name, new Character()
                     {
                         name = char_name,
                         nameColor = nameColor[char_name]
                     });
-                CreateImageForCharacter(scene.characters[char_name]);
+                CreateImageForCharacter(characters[char_name]);
 
-                foreach (var sprite in scene.used_sprites[scene.characters.Count-1])
+                foreach (var sprite in scene.used_sprites[characters.Count-1])
                 {
                     BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                         sprite).toBitmapImage();
-                    scene.characters[char_name].sprites.Add(sprite, image);
+                    characters[char_name].sprites.Add(sprite, image);
                 }
             }
         }
@@ -268,6 +268,7 @@ namespace NC_Client
                 scene.backgrouds.Add(sprite, image);
             }
         }
+
 
         void ChangeFrame(Scene scene, int frame)
         {
