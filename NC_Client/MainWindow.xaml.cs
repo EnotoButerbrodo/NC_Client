@@ -189,28 +189,10 @@ namespace NC_Client
             });
             frames[1].sprites.Add("Monika", "Teaching_sad.png");
             frames[1].chacters_size.Add("Monika", 1.0);
-            frames.Add(new Frame()
-            {
-                text = "Привет всем. Это первый самостоятельный фрейм",
-                character = "Monika",
-                background = "Class1.png",
-
-            });
-            frames[2].sprites.Add("Monika", "Default.png");
-            frames[2].chacters_size.Add("Monika", 1.0);
-            frames.Add(new Frame()
-            {
-                text = "А это уже второй",
-                character = "Monika",
-                background = "Class1.png",
-            });
-            frames[3].sprites.Add("Monika", "Teaching_sad.png");
-            frames[3].chacters_size.Add("Monika", 1.0);
-            //Синтетическая сцена
+         
             Scene first = new Scene()
             {
                 name = "FirstScene",
-                used_characters = new string[] { "Monika", "Lilly" },
                 used_backgrouds = new string[] { "Class1.png", "Class2.png" },
                 used_sprites = new Dictionary<string, string[]>()
                 {
@@ -232,19 +214,29 @@ namespace NC_Client
         }
         void CharactersSetup(Scene scene)
         {
+            //Для каждого героя, участвующего в сцене
             foreach (var character in scene.used_sprites)
             {
+                //Если героя нет в ресурсах игры
                 if (!resourses.CharacterInList(character.Key))
                 {
+                    //Создаем его
                     Character new_char = new Character()
                     {
                         name = character.Key,
                         nameColor = nameColor[character.Key]
                     };
+                    
+                    //Добавляем ему image для отображения
                     CreateImageForCharacter(new_char);
+                    //Добавляем героя в ресурсы
+                    resourses.AddCharacter(character.Key, new_char);
                 }
+                //Теперь нужный герои есть в ресурсах. Добавляем ему нужные спрайты
+                //Добавляем каждый необходимый спрайт нужному герою
                 foreach (string sprite in scene.used_sprites[character.Key])
                 {
+                    //Добавляем новый спрайт, только если ещё нет в ресурсах
                     if (!resourses.SpriteInList(character.Key, sprite))
                     {
                         BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
@@ -252,9 +244,7 @@ namespace NC_Client
                         resourses.AddSprite(character.Key, sprite, image);
                     }
                 }
-                
             }
-            
         }
         void CreateImageForCharacter(Character character)
         {
@@ -275,20 +265,20 @@ namespace NC_Client
                 {
                     BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                             sprite).toBitmapImage();
-                    backgrouds.Add(sprite, image);
+                    resourses.AddBackground(sprite, image);
                 }
             }
         }
-
         void ChangeFrame(Scene scene, int frame)
         {
 
             string frame_backgroud = scene[frame].background;
-            BitmapImage background_image = backgrouds[frame_backgroud];
+            BitmapImage background_image = resourses.GetBackground(frame_backgroud);
             BackgroundImage.Source = background_image;
             foreach(var character in scene[frame].sprites)
             {
-                characters[character.Key].SetImage(character.Value);  
+                Character.SetImage(resourses.GetCharacter(character.Key),
+                    character.Value);
             }
         }
     }
