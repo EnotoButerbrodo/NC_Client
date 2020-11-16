@@ -10,8 +10,7 @@ namespace NC_Client
     public class Scene
     {
         public string name { get; set; }
-        public string[] used_characters { get; set; }
-        public string[][] used_sprites { get; set; }
+        public Dictionary<string, string[]> used_sprites { get; set; }
         public string[] used_backgrouds { get; set; }
         public Frame[] frames { get; set; }
         

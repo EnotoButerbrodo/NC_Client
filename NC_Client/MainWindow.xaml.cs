@@ -212,7 +212,11 @@ namespace NC_Client
                 name = "FirstScene",
                 used_characters = new string[] { "Monika", "Lilly" },
                 used_backgrouds = new string[] { "Class1.png", "Class2.png" },
-                used_sprites = new string[2][] { new string[] { "Default.png", "Teaching_sad.png" }, new string[] { "lilly_basic_cheerful.png" } }
+                used_sprites = new Dictionary<string, string[]>()
+                {
+                    ["Monika"] = new string[] {"Default.png", "Teaching_sad.png"},
+                    ["Lilly"] = new string[] { "lilly_basic_cheerful.png" }
+                }
 
             };
             first.frames = frames.ToArray();
@@ -228,23 +232,29 @@ namespace NC_Client
         }
         void CharactersSetup(Scene scene)
         {
-            foreach (string char_name in scene.used_characters)
+            foreach (var character in scene.used_sprites)
             {
-
-                Character new_char = new Character()
+                if (!resourses.CharacterInList(character.Key))
                 {
-                    name = char_name,
-                    nameColor = nameColor[char_name]
-                };
-                CreateImageForCharacter(new_char);
-                foreach (var sprite in scene.used_sprites[characters.Count-1])
-                {
-                    BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-                        sprite).toBitmapImage();
-                    characters[char_name].sprites.Add(sprite, image);
-                    
+                    Character new_char = new Character()
+                    {
+                        name = character.Key,
+                        nameColor = nameColor[character.Key]
+                    };
+                    CreateImageForCharacter(new_char);
                 }
+                foreach (string sprite in scene.used_sprites[character.Key])
+                {
+                    if (!resourses.SpriteInList(character.Key, sprite))
+                    {
+                        BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                            sprite).toBitmapImage();
+                        resourses.AddSprite(character.Key, sprite, image);
+                    }
+                }
+                
             }
+            
         }
         void CreateImageForCharacter(Character character)
         {
@@ -259,12 +269,14 @@ namespace NC_Client
         }
         void BackgroundsSetup(Scene scene)
         {
-            backgrouds.Clear();
             foreach(string sprite in scene.used_backgrouds)
             {
-                BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-                        sprite).toBitmapImage();
-                backgrouds.Add(sprite, image);
+                if (!resourses.BackgroundInList(sprite))
+                {
+                    BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                            sprite).toBitmapImage();
+                    backgrouds.Add(sprite, image);
+                }
             }
         }
 

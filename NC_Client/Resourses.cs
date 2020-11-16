@@ -15,39 +15,59 @@ namespace NC_Client
         Dictionary<string, Character> characters;
         Dictionary<string, BitmapImage> backgrounds;
 
+        public int CharactersCount {
+            get
+            {
+                return characters.Count;
+            }
+        }
+        public int BackgroundsCount
+        {
+            get
+            {
+                return backgrounds.Count;
+            }
+        }
+
         public void AddCharacter(string name, Character character)
         {
-            if(!CharacterInList(name, character))
             characters.Add(name, character);
           
         }
-        public bool CharacterInList(string name, Character character)
+        public bool CharacterInList(string name)
         {
-            if (characters.ContainsKey(name) | characters.ContainsValue(character)) return true;
+            if (characters.ContainsKey(name)) return true;
             return false;
 
         }
+        public void AddSprite(string char_name, string sprite_name, BitmapImage image)
+        {
+                characters[char_name].sprites.Add(sprite_name, image);
+        }
+        public bool SpriteInList(string char_name, string sprite_name)
+        {
+            if (characters[char_name].sprites.ContainsKey(sprite_name)) return true;
+            return false;
+        }
         public void AddBackground(string name, BitmapImage image)
         {
-            if (!BackgroundInList(name, image))
+            if (!BackgroundInList(name))
                 backgrounds.Add(name, image);
+            else return;
         }
-        public bool BackgroundInList(string name, BitmapImage image)
+        public bool BackgroundInList(string name)
         {
-            if (backgrounds.ContainsKey(name) | backgrounds.ContainsValue(image)) return true;
+            if (backgrounds.ContainsKey(name)) return true;
             return false;
         }
         public BitmapImage GetBackground(string name)
         {
-            if (backgrounds.ContainsKey(name))
-                return backgrounds[name];
-            throw new Exception("Задний фон отсуствует в ресурсах");
+               return backgrounds[name];
         }
         public Character GetCharacter(string name)
         {
-            if (characters.ContainsKey(name))
-                return characters[name];
-            throw new Exception("Персонаж отсуствует в ресурсах");
+            return characters[name];
         }
+
     }
 }
