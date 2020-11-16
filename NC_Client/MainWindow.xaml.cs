@@ -276,7 +276,6 @@ namespace NC_Client
             }
         }
 
-
         void ChangeFrame(Scene scene, int frame)
         {
 
