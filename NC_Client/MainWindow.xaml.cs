@@ -34,6 +34,7 @@ namespace NC_Client
         public MainWindow()
         {
             InitializeComponent();
+            Effects.ShowLoadingSplash(LoadingSplash);
         }
 
         #region Variables

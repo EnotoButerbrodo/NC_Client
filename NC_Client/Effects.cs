@@ -27,17 +27,5 @@ namespace NC_Client
             }
 
         }
-        async public static void ShowText(TextBlock textBlock, string text, int time_del)
-        {
-            textBlock.Text = "";
-            foreach (char sign in text)
-            {
-
-                textBlock.Text += sign;
-                if (sign == ' ') continue;
-                await Task.Delay(time_del);
-            }
-   
-        }
     }
 }
