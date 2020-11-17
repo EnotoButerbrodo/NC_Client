@@ -104,21 +104,17 @@ namespace NC_Client
 
         bool CharacterInList(string name)
         {
-            if (characters.ContainsKey(name)) return true;
-            return false;
+            return characters.ContainsKey(name);
         } 
         bool SpriteInList(string char_name, string sprite_name)
         {
-            if (characters[char_name].sprites.ContainsKey(sprite_name)) return true;
-            return false;
+            return characters[char_name].sprites.ContainsKey(sprite_name);
         }
         bool BackgroundInList(string name)
         {
-            if (backgrounds.ContainsKey(name)) return true;
-            return false;
+            return backgrounds.ContainsKey(name);
         }
-
-        MemoryStream ReadFromZip(string zipPath, string fileName)
+        public static MemoryStream ReadFromZip(string zipPath, string fileName)
         {
             using (ZipFile zip = ZipFile.Read(zipPath))
             {
@@ -135,9 +131,6 @@ namespace NC_Client
             }
             throw new Exception("Файл не найден");
         }
-
-        
-        
 
         public int CharactersCount
         {
