@@ -1,11 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Shapes;
 
 namespace NC_Client
 {
     public static class Effects
     {
+        public static void ShowLoadingSplash(Rectangle screen)
+        {
+            screen.Opacity = 1;
+        }
+        public static void HideLoadingSplash(Rectangle screen)
+        {
+            screen.Opacity = 0;
+        }
+        async public static void HideLoadingSplash(Rectangle screen, int time_mc)
+        {
+            while (screen.Opacity > 0.0)
+            {
+                screen.Opacity -= 0.01;
+                await Task.Delay(time_mc / 1000);
+            }
 
+        }
+        async public static void ShowText(TextBlock textBlock, string text, int time_del)
+        {
+            textBlock.Text = "";
+            foreach (char sign in text)
+            {
+
+                textBlock.Text += sign;
+                if (sign == ' ') continue;
+                await Task.Delay(time_del);
+            }
+   
+        }
     }
 }

@@ -8,7 +8,8 @@
         Title="MainWindow" Height="480" Width="847" ResizeMode="CanMinimize">
     <Grid x:Name="Main">
         <Image Name="BackgroundImage" Grid.Column="0"  Grid.Row="0" Width="Auto" Height="Auto" Stretch="Fill"/>
-        <Rectangle x:Name="LoadingSplash" Panel.ZIndex="100" Grid.Column="0" Grid.Row="0" Fill="Black"/>
+        <Rectangle x:Name="LoadingSplash" Panel.ZIndex="100" Grid.Column="0" Grid.Row="0" Fill="Black" Opacity="0"  MouseLeftButtonDown="ClickHandler_MouseLeftButtonDown"/>
+        <Rectangle x:Name="ClickHandler" Panel.ZIndex="99" Grid.Column="0" Grid.Row="0" Fill="Red" Opacity="0" MouseLeftButtonDown="ClickHandler_MouseLeftButtonDown"/>
         <Canvas x:Name="Characters_place" Panel.ZIndex="0" Grid.Row="0" Grid.Column="0">
         </Canvas>
         <Button Content="Button" HorizontalAlignment="Left"  VerticalAlignment="Top" Click="Button_Click" Panel.ZIndex="101"/>
@@ -27,9 +28,9 @@
             </Grid.ColumnDefinitions>
             <Image Source="/Resources/textbox.png" Grid.Column="1" Grid.Row="1" Stretch="Fill"/>
             <TextBlock  x:Name="FrameText" Grid.Column="1" Grid.Row="1" Margin="15" FontSize="20"
-                       Text="Это тестовый текст" Foreground="White">
+                       Text="Это тестовый текст" Foreground="White" TextWrapping="Wrap">
                 <TextBlock.Effect>
-                    <DropShadowEffect/>
+                    <DropShadowEffect Opacity="0.3" BlurRadius="20" ShadowDepth="3"/>
                 </TextBlock.Effect>
             </TextBlock>
 

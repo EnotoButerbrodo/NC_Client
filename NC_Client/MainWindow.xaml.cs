@@ -49,6 +49,7 @@ namespace NC_Client
         };
         Resourses resourses = new Resourses();
         int curr_frame=0;
+        bool skip = false;
 
         #endregion
 
@@ -165,51 +166,53 @@ namespace NC_Client
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ChangeFrame(curr_scene, curr_frame++%curr_scene.Length);
+            Effects.HideLoadingSplash(LoadingSplash,1000);
         }
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
             //Синтетическое создание сцены
             //Синтетический фрейм
 
-            //List<Frame> frames = new List<Frame>();
-            //frames.Add(new Frame()
-            //{
-            //    text = "Привет всем. Это первый самостоятельный фрейм",
-            //    character = "Monika",
-            //    background = "Class1.png",
+            List<Frame> frames = new List<Frame>();
+            frames.Add(new Frame()
+            {
+                text = "Привет всем. Это первый самостоятельный фрейм. И на самом деле это ограмная честь" +
+                "Иметь возможность поговрить с вами сегодня",
+                character = "Monika",
+                background = "Class1.png",
 
-            //});
-            //frames[0].sprites.Add("Monika", "Default.png");
-            //frames[0].chacters_size.Add("Monika", 1.0);
-            //frames.Add(new Frame()
-            //{
-            //    text = "А это уже второй",
-            //    character = "Monika",
-            //    background = "Class2.png",
-            //});
-            //frames[1].sprites.Add("Monika", "Teaching_sad.png");
-            //frames[1].chacters_size.Add("Monika", 1.0);
-         
-            //Scene first = new Scene()
-            //{
-            //    name = "FirstScene",
-            //    used_backgrouds = new string[] { "Class1.png", "Class2.png" },
-            //    used_sprites = new Dictionary<string, string[]>()
-            //    {
-            //        ["Monika"] = new string[] {"Default.png", "Teaching_sad.png"},
-            //        ["Lilly"] = new string[] { "lilly_basic_cheerful.png" }
-            //    }
+            });
+            frames[0].sprites.Add("Monika", "Default.png");
+            frames[0].chacters_size.Add("Monika", 1.0);
+            frames.Add(new Frame()
+            {
+                text = "А это уже второй, но я волнуюсь все так же сильно, как и в первый. Безусловно, это невероятно" +
+                "Наконец то мои слова были услышаны!",
+                character = "Monika",
+                background = "Class1.png",
+            });
+            frames[1].sprites.Add("Monika", "Teaching_sad.png");
+            frames[1].chacters_size.Add("Monika", 1.0);
 
-            //};
-            //first.frames = frames.ToArray();
-            //SaveSceneFile("script.txt", first);
+            Scene first = new Scene()
+            {
+                name = "FirstScene",
+                used_backgrouds = new string[] { "Class1.png", "Class2.png" },
+                used_sprites = new Dictionary<string, string[]>()
+                {
+                    ["Monika"] = new string[] { "Default.png", "Teaching_sad.png" },
+                    ["Lilly"] = new string[] { "lilly_basic_cheerful.png" }
+                }
 
+            };
+            first.frames = frames.ToArray();
+            SaveSceneFile("script.txt", first);
+            Effects.ShowLoadingSplash(LoadingSplash);
             curr_scene = LoadSceneFile("script.txt");
 
             
             CharactersSetup(curr_scene);
             BackgroundsSetup(curr_scene);
-
 
 
         }
@@ -281,8 +284,39 @@ namespace NC_Client
                 Character.SetImage(resourses.GetCharacter(character.Key),
                     character.Value);
             }
-            FrameText.Text = curr_scene[frame].text;
-            LoadingSplash.Opacity = 0;
+            //FrameText.Text = curr_scene[frame].text;
+
+            ShowText(frame, 100);
+        }
+        async void ShowText(int frame, int time_del)
+        {
+            FrameText.Text = "";
+            skip = false;
+            foreach (char sign in curr_scene[frame].text)
+            {
+                if(skip)
+                {
+                    FrameText.Text = curr_scene[frame].text;
+                    break;
+                }
+                
+                FrameText.Text += sign;
+                if (sign == ' ') continue;
+                await Task.Delay(time_del);
+            }
+            skip = true;
+        }
+
+        private void ClickHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if(skip == false)
+            {
+                skip = true;
+                curr_frame = curr_frame++ % curr_scene.Length;
+                return;
+            }
+            ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);
+
         }
     }
 }
