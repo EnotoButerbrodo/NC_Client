@@ -7,24 +7,28 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="480" Width="847" ResizeMode="CanMinimize">
     <Grid x:Name="Main">
-        <Image Name="BackgroundImage" Grid.Column="0" Grid.Row="0" Width="Auto" Height="Auto" Stretch="Fill"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="739,325,0,0" VerticalAlignment="Top" Click="Button_Click" Panel.ZIndex="1"/>
-        <Button Content="Button2" HorizontalAlignment="Left" Margin="791,325,0,0" VerticalAlignment="Top" Click="Button_Click2" Panel.ZIndex="1"/>
-        <Canvas x:Name="Characters_place"  Grid.Row="0" Grid.Column="0">
+        <Image Name="BackgroundImage" Grid.Column="0"  Grid.Row="0" Width="Auto" Height="Auto" Stretch="Fill"/>
+        <Rectangle x:Name="LoadingSplash" Panel.ZIndex="100" Grid.Column="0" Grid.Row="0" Fill="Black"/>
+        <Canvas x:Name="Characters_place" Panel.ZIndex="0" Grid.Row="0" Grid.Column="0">
         </Canvas>
+        <Button Content="Button" HorizontalAlignment="Left"  VerticalAlignment="Top" Click="Button_Click" Panel.ZIndex="101"/>
+        <Button Content="Button2" HorizontalAlignment="Left"  VerticalAlignment="Top" Click="Button_Click2" Panel.ZIndex="101" Margin="45,0,0,0"/>
 
-        <Grid x:Name="Interface" Panel.ZIndex="20">
+        <Grid x:Name="Interface" Panel.ZIndex="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.05*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="8*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Image Source="/Resources/textbox.png" Grid.Column="1" Grid.Row="1" Stretch="Fill"/>
+            <TextBlock Grid.Column="1" Grid.Row="1" Margin="15" FontSize="20"
+                       Text="Это тестовый текст" Foreground="White"/>
+
         </Grid>
     </Grid>
 

@@ -209,6 +209,7 @@ namespace NC_Client
             
             CharactersSetup(curr_scene);
             BackgroundsSetup(curr_scene);
+            LoadingSplash.Opacity = 0;
 
 
         }
