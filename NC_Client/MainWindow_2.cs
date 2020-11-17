@@ -25,6 +25,45 @@ namespace NC_Client
 {
     public partial class MainWindow : Window
     {
+        #region Variables
+
+        SettingsFile settings = new SettingsFile();
+        Dictionary<string, BitmapImage> backgrouds = new Dictionary<string, BitmapImage>();
+        Dictionary<string, Character> characters = new Dictionary<string, Character>();
+        Scene curr_scene;
+        Dictionary<string, SolidColorBrush> nameColor = new Dictionary<string, SolidColorBrush>()
+        {
+            ["Monika"] = Brushes.Red,
+            ["Lilly"] = Brushes.Green
+        };
+        Resourses resourses = new Resourses();
+        int curr_frame = 0;
+        bool skip = false;
+
+        #endregion
+
+        void SaveSceneFile(string path, Scene scene)
+        {
+            using (var fs = File.Open(path, FileMode.OpenOrCreate))
+            {
+                string ser_scene = JsonSerializer.Serialize(scene);
+                using (var writer = new StreamWriter(fs))
+                {
+                    writer.Write(ser_scene);
+                }
+            }
+        }
+        Scene LoadSceneFile(string path)
+        {
+            using (FileStream fs = File.Open(path, FileMode.Open))
+            {
+                using (var reader = new StreamReader(fs))
+                {
+                    string file = reader.ReadToEnd();
+                    return JsonSerializer.Deserialize<Scene>(file);
+                }
+            }
+        }
         void ChangeFrame(Scene scene, int frame)
         {
 
@@ -56,28 +95,7 @@ namespace NC_Client
             }
             skip = true;
         }
-        void SaveSceneFile(string path, Scene scene)
-        {
-            using (var fs = File.Open(path, FileMode.OpenOrCreate))
-            {
-                string ser_scene = JsonSerializer.Serialize(scene);
-                using (var writer = new StreamWriter(fs))
-                {
-                    writer.Write(ser_scene);
-                }
-            }
-        }
-        Scene LoadSceneFile(string path)
-        {
-            using (FileStream fs = File.Open(path, FileMode.Open))
-            {
-                using (var reader = new StreamReader(fs))
-                {
-                    string file = reader.ReadToEnd();
-                    return JsonSerializer.Deserialize<Scene>(file);
-                }
-            }
-        }
+
         SettingsFile LoadConfig()
         {
             try

@@ -37,24 +37,6 @@ namespace NC_Client
             Effects.ShowLoadingSplash(LoadingSplash);
         }
 
-        #region Variables
-
-        SettingsFile settings = new SettingsFile();
-        Dictionary<string, BitmapImage> backgrouds = new Dictionary<string, BitmapImage>();
-        Dictionary<string, Character> characters = new Dictionary<string, Character>();
-        Scene curr_scene;
-        Dictionary<string, SolidColorBrush> nameColor = new Dictionary<string, SolidColorBrush>()
-        {
-            ["Monika"] = Brushes.Red,
-            ["Lilly"] = Brushes.Green
-        };
-        Resourses resourses = new Resourses();
-        int curr_frame=0;
-        bool skip = false;
-
-        #endregion
-
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             ChangeFrame(curr_scene, curr_frame++%curr_scene.Length);
@@ -109,63 +91,6 @@ namespace NC_Client
 
 
         }
-        //void CharactersSetup(Scene scene)
-        //{
-        //    //Для каждого героя, участвующего в сцене
-        //    foreach (var character in scene.used_sprites)
-        //    {
-        //        //Если героя нет в ресурсах игры
-        //        if (!resourses.CharacterInList(character.Key))
-        //        {
-        //            //Создаем его
-        //            Character new_char = new Character()
-        //            {
-        //                name = character.Key,
-        //                nameColor = nameColor[character.Key]
-        //            };
-                    
-        //            //Добавляем ему image для отображения
-        //            CreateImageForCharacter(new_char);
-        //            //Добавляем героя в ресурсы
-        //            resourses.AddCharacter(character.Key, new_char);
-        //        }
-        //        //Теперь нужный герои есть в ресурсах. Добавляем ему нужные спрайты
-        //        //Добавляем каждый необходимый спрайт нужному герою
-        //        foreach (string sprite in scene.used_sprites[character.Key])
-        //        {
-        //            //Добавляем новый спрайт, только если ещё нет в ресурсах
-        //            if (!resourses.SpriteInList(character.Key, sprite))
-        //            {
-        //                BitmapImage image = Resourses.ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-        //                    sprite).toBitmapImage();
-        //                resourses.AddSprite(character.Key, sprite, image);
-        //            }
-        //        }
-        //    }
-        //}
-        //void CreateImageForCharacter(Character character)
-        //{
-        //    character.image.BeginInit();
-        //    character.image.Width = 400;
-        //    character.image.Height = 400;
-        //    Canvas.SetLeft(character.image, character.position.X+250);
-        //    Canvas.SetBottom(character.image, character.position.Y);
-        //    character.image.Stretch = Stretch.Fill;
-        //    character.image.EndInit();
-        //    Characters_place.Children.Add(character.image);
-        //}
-        //void BackgroundsSetup(Scene scene)
-        //{
-        //    foreach(string sprite in scene.used_backgrouds)
-        //    {
-        //        if (!resourses.BackgroundInList(sprite))
-        //        {
-        //            BitmapImage image = Resourses.ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-        //                    sprite).toBitmapImage();
-        //            resourses.AddBackground(sprite, image);
-        //        }
-        //    }
-        //}
         private void ClickHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if(skip == false)
