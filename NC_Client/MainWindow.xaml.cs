@@ -171,38 +171,38 @@ namespace NC_Client
             //Синтетическое создание сцены
             //Синтетический фрейм
 
-            List<Frame> frames = new List<Frame>();
-            frames.Add(new Frame()
-            {
-                text = "Привет всем. Это первый самостоятельный фрейм",
-                character = "Monika",
-                background = "Class1.png",
+            //List<Frame> frames = new List<Frame>();
+            //frames.Add(new Frame()
+            //{
+            //    text = "Привет всем. Это первый самостоятельный фрейм",
+            //    character = "Monika",
+            //    background = "Class1.png",
 
-            });
-            frames[0].sprites.Add("Monika", "Default.png");
-            frames[0].chacters_size.Add("Monika", 1.0);
-            frames.Add(new Frame()
-            {
-                text = "А это уже второй",
-                character = "Monika",
-                background = "Class2.png",
-            });
-            frames[1].sprites.Add("Monika", "Teaching_sad.png");
-            frames[1].chacters_size.Add("Monika", 1.0);
+            //});
+            //frames[0].sprites.Add("Monika", "Default.png");
+            //frames[0].chacters_size.Add("Monika", 1.0);
+            //frames.Add(new Frame()
+            //{
+            //    text = "А это уже второй",
+            //    character = "Monika",
+            //    background = "Class2.png",
+            //});
+            //frames[1].sprites.Add("Monika", "Teaching_sad.png");
+            //frames[1].chacters_size.Add("Monika", 1.0);
          
-            Scene first = new Scene()
-            {
-                name = "FirstScene",
-                used_backgrouds = new string[] { "Class1.png", "Class2.png" },
-                used_sprites = new Dictionary<string, string[]>()
-                {
-                    ["Monika"] = new string[] {"Default.png", "Teaching_sad.png"},
-                    ["Lilly"] = new string[] { "lilly_basic_cheerful.png" }
-                }
+            //Scene first = new Scene()
+            //{
+            //    name = "FirstScene",
+            //    used_backgrouds = new string[] { "Class1.png", "Class2.png" },
+            //    used_sprites = new Dictionary<string, string[]>()
+            //    {
+            //        ["Monika"] = new string[] {"Default.png", "Teaching_sad.png"},
+            //        ["Lilly"] = new string[] { "lilly_basic_cheerful.png" }
+            //    }
 
-            };
-            first.frames = frames.ToArray();
-            SaveSceneFile("script.txt", first);
+            //};
+            //first.frames = frames.ToArray();
+            //SaveSceneFile("script.txt", first);
 
             curr_scene = LoadSceneFile("script.txt");
 

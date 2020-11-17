@@ -14,12 +14,16 @@
 
         </Canvas>
 
-        <Grid x:Name="Interface" Panel.ZIndex="0">
+        <Grid x:Name="Interface" Panel.ZIndex="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="TextBlock" Grid.Row="1" Background="Coral" Opacity="0.6"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
         </Grid>
     </Grid>
 

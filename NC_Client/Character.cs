@@ -13,7 +13,6 @@ namespace NC_Client
     {
         public Character()
         {
-            name = "Unnamed";
             nameColor = Brushes.Black;
             sprites = new Dictionary<string, BitmapImage>();
             position = new Point(0, 0);
