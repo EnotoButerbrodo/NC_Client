@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Ionic.Zip;
 
@@ -16,61 +18,107 @@ namespace NC_Client
         }
         Dictionary<string, Character> characters;
         Dictionary<string, BitmapImage> backgrounds;
-
-        public int CharactersCount {
-            get
-            {
-                return characters.Count;
-            }
-        }
-        public int BackgroundsCount
-        {
-            get
-            {
-                return backgrounds.Count;
-            }
-        }
-
-        public void AddCharacter(string name, Character character)
-        {
-            characters.Add(name, character);
-          
-        }
-        public bool CharacterInList(string name)
-        {
-            if (characters.ContainsKey(name)) return true;
-            return false;
-
-        }
-        public void AddSprite(string char_name, string sprite_name, BitmapImage image)
-        {
-                characters[char_name].sprites.Add(sprite_name, image);
-        }
-        public bool SpriteInList(string char_name, string sprite_name)
-        {
-            if (characters[char_name].sprites.ContainsKey(sprite_name)) return true;
-            return false;
-        }
-        public void AddBackground(string name, BitmapImage image)
-        {
-            if (!BackgroundInList(name))
-                backgrounds.Add(name, image);
-            else return;
-        }
-        public bool BackgroundInList(string name)
-        {
-            if (backgrounds.ContainsKey(name)) return true;
-            return false;
-        }
+        
         public BitmapImage GetBackground(string name)
         {
-               return backgrounds[name];
+            return backgrounds[name];
         }
         public Character GetCharacter(string name)
         {
             return characters[name];
         }
-        public static MemoryStream ReadFromZip(string zipPath, string fileName)
+
+        public void LoadScene(Scene scene, Canvas place)
+        {
+            LoadCharacters(scene, place);
+            LoadBackgrounds(scene);
+        }
+        void LoadCharacters(Scene scene, Canvas place)
+        {
+            foreach (var character in scene.used_sprites)
+            {
+                //Если героя нет в ресурсах игры
+                if (!CharacterInList(character.Key))
+                {
+                    //Создаем его
+                    Character new_char = new Character()
+                    {
+                        name = character.Key,
+                        //nameColor = nameColor[character.Key]
+                    };
+                    CreateImageForCharacter(new_char);
+
+                    place.Children.Add(new_char.image);
+
+                    AddCharacter(character.Key, new_char);
+                }
+                //Теперь нужный герои есть в ресурсах. Добавляем ему нужные спрайты
+                //Добавляем каждый необходимый спрайт нужному герою
+                foreach (string sprite in scene.used_sprites[character.Key])
+                {
+                    //Добавляем новый спрайт, только если ещё нет в ресурсах
+                    if (!SpriteInList(character.Key, sprite))
+                    {
+                        BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                            sprite).toBitmapImage();
+                        AddSprite(character.Key, sprite, image);
+                    }
+                }
+            }
+        }
+        void CreateImageForCharacter(Character character)
+        {
+            character.image.BeginInit();
+            character.image.Width = 400;
+            character.image.Height = 400;
+            Canvas.SetLeft(character.image, character.position.X + 250);
+            Canvas.SetBottom(character.image, character.position.Y);
+            character.image.Stretch = Stretch.Fill;
+            character.image.EndInit();
+        }
+        void LoadBackgrounds(Scene scene)
+        {
+            foreach (string sprite in scene.used_backgrouds)
+            {
+                if (!BackgroundInList(sprite))
+                {
+                    BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                            sprite).toBitmapImage();
+                    AddBackground(sprite, image);
+                }
+            }
+        }
+
+        void AddCharacter(string name, Character character)
+        {
+            characters.Add(name, character);
+        }
+        void AddBackground(string name, BitmapImage image)
+        {
+            backgrounds.Add(name, image);
+        }
+        void AddSprite(string char_name, string sprite_name, BitmapImage image)
+        {
+            characters[char_name].sprites.Add(sprite_name, image);
+        }
+
+        bool CharacterInList(string name)
+        {
+            if (characters.ContainsKey(name)) return true;
+            return false;
+        } 
+        bool SpriteInList(string char_name, string sprite_name)
+        {
+            if (characters[char_name].sprites.ContainsKey(sprite_name)) return true;
+            return false;
+        }
+        bool BackgroundInList(string name)
+        {
+            if (backgrounds.ContainsKey(name)) return true;
+            return false;
+        }
+
+        MemoryStream ReadFromZip(string zipPath, string fileName)
         {
             using (ZipFile zip = ZipFile.Read(zipPath))
             {
@@ -88,5 +136,30 @@ namespace NC_Client
             throw new Exception("Файл не найден");
         }
 
+        
+        
+
+        public int CharactersCount
+        {
+            get
+            {
+                return characters.Count;
+            }
+        }
+        public int BackgroundsCount
+        {
+            get
+            {
+                return backgrounds.Count;
+            }
+        }
+        //BitmapImage toBitmapImage(MemoryStream stream)
+        //{
+        //    BitmapImage src = new BitmapImage();
+        //    src.BeginInit();
+        //    src.StreamSource = stream;
+        //    src.EndInit();
+        //    return src;
+        //}
     }
 }

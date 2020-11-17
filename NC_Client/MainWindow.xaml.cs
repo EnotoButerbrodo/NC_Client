@@ -69,7 +69,6 @@ namespace NC_Client
         }
         Scene LoadSceneFile(string path)
         {
-            
             using (FileStream fs = File.Open(path, FileMode.Open))
             {
                 using (var reader = new StreamReader(fs))
@@ -120,31 +119,8 @@ namespace NC_Client
             }
         }
 
-        void SaveList(List<string> image_list)
-        {
-            string save_config = JsonSerializer.Serialize(image_list);
-
-            try
-            {
-                using (FileStream fs = new FileStream("config.json", FileMode.OpenOrCreate, FileAccess.Write))
-                {
-                    using (var stream = new StreamWriter(fs))
-                    {
-                        stream.Write(save_config);
-                    }
-                }
-            }
-            catch
-            {
-
-            }
-        }
-
         #endregion
 
-        #region Buttons
-
-        #endregion
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -193,69 +169,70 @@ namespace NC_Client
             Effects.ShowLoadingSplash(LoadingSplash);
             curr_scene = LoadSceneFile("script.txt");
 
-            
-            CharactersSetup(curr_scene);
-            BackgroundsSetup(curr_scene);
+
+            //CharactersSetup(curr_scene);
+            //BackgroundsSetup(curr_scene);
+            resourses.LoadScene(curr_scene, Characters_place);
 
 
         }
-        void CharactersSetup(Scene scene)
-        {
-            //Для каждого героя, участвующего в сцене
-            foreach (var character in scene.used_sprites)
-            {
-                //Если героя нет в ресурсах игры
-                if (!resourses.CharacterInList(character.Key))
-                {
-                    //Создаем его
-                    Character new_char = new Character()
-                    {
-                        name = character.Key,
-                        nameColor = nameColor[character.Key]
-                    };
+        //void CharactersSetup(Scene scene)
+        //{
+        //    //Для каждого героя, участвующего в сцене
+        //    foreach (var character in scene.used_sprites)
+        //    {
+        //        //Если героя нет в ресурсах игры
+        //        if (!resourses.CharacterInList(character.Key))
+        //        {
+        //            //Создаем его
+        //            Character new_char = new Character()
+        //            {
+        //                name = character.Key,
+        //                nameColor = nameColor[character.Key]
+        //            };
                     
-                    //Добавляем ему image для отображения
-                    CreateImageForCharacter(new_char);
-                    //Добавляем героя в ресурсы
-                    resourses.AddCharacter(character.Key, new_char);
-                }
-                //Теперь нужный герои есть в ресурсах. Добавляем ему нужные спрайты
-                //Добавляем каждый необходимый спрайт нужному герою
-                foreach (string sprite in scene.used_sprites[character.Key])
-                {
-                    //Добавляем новый спрайт, только если ещё нет в ресурсах
-                    if (!resourses.SpriteInList(character.Key, sprite))
-                    {
-                        BitmapImage image = Resourses.ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-                            sprite).toBitmapImage();
-                        resourses.AddSprite(character.Key, sprite, image);
-                    }
-                }
-            }
-        }
-        void CreateImageForCharacter(Character character)
-        {
-            character.image.BeginInit();
-            character.image.Width = 400;
-            character.image.Height = 400;
-            Canvas.SetLeft(character.image, character.position.X+250);
-            Canvas.SetBottom(character.image, character.position.Y);
-            character.image.Stretch = Stretch.Fill;
-            character.image.EndInit();
-            Characters_place.Children.Add(character.image);
-        }
-        void BackgroundsSetup(Scene scene)
-        {
-            foreach(string sprite in scene.used_backgrouds)
-            {
-                if (!resourses.BackgroundInList(sprite))
-                {
-                    BitmapImage image = Resourses.ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
-                            sprite).toBitmapImage();
-                    resourses.AddBackground(sprite, image);
-                }
-            }
-        }
+        //            //Добавляем ему image для отображения
+        //            CreateImageForCharacter(new_char);
+        //            //Добавляем героя в ресурсы
+        //            resourses.AddCharacter(character.Key, new_char);
+        //        }
+        //        //Теперь нужный герои есть в ресурсах. Добавляем ему нужные спрайты
+        //        //Добавляем каждый необходимый спрайт нужному герою
+        //        foreach (string sprite in scene.used_sprites[character.Key])
+        //        {
+        //            //Добавляем новый спрайт, только если ещё нет в ресурсах
+        //            if (!resourses.SpriteInList(character.Key, sprite))
+        //            {
+        //                BitmapImage image = Resourses.ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+        //                    sprite).toBitmapImage();
+        //                resourses.AddSprite(character.Key, sprite, image);
+        //            }
+        //        }
+        //    }
+        //}
+        //void CreateImageForCharacter(Character character)
+        //{
+        //    character.image.BeginInit();
+        //    character.image.Width = 400;
+        //    character.image.Height = 400;
+        //    Canvas.SetLeft(character.image, character.position.X+250);
+        //    Canvas.SetBottom(character.image, character.position.Y);
+        //    character.image.Stretch = Stretch.Fill;
+        //    character.image.EndInit();
+        //    Characters_place.Children.Add(character.image);
+        //}
+        //void BackgroundsSetup(Scene scene)
+        //{
+        //    foreach(string sprite in scene.used_backgrouds)
+        //    {
+        //        if (!resourses.BackgroundInList(sprite))
+        //        {
+        //            BitmapImage image = Resourses.ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+        //                    sprite).toBitmapImage();
+        //            resourses.AddBackground(sprite, image);
+        //        }
+        //    }
+        //}
         void ChangeFrame(Scene scene, int frame)
         {
 
@@ -267,9 +244,7 @@ namespace NC_Client
                 Character.SetImage(resourses.GetCharacter(character.Key),
                     character.Value);
             }
-            //FrameText.Text = curr_scene[frame].text;
-
-            ShowText(frame, 100);
+            ShowText(frame, 25);
         }
         async void ShowText(int frame, int time_del)
         {
