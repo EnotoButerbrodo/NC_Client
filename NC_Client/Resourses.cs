@@ -21,11 +21,15 @@ namespace NC_Client
         
         public BitmapImage GetBackground(string name)
         {
+            if(BackgroundInList(name))
             return backgrounds[name];
+            throw new Exception("Файл отсуствует");
         }
         public Character GetCharacter(string name)
         {
+            if(CharacterInList(name))
             return characters[name];
+            throw new Exception("Персонаж отсуствует");
         }
         public BitmapImage GetSprite(string char_name, string sprite_name)
         {
