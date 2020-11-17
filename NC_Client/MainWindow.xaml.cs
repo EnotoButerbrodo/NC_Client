@@ -281,6 +281,7 @@ namespace NC_Client
                 Character.SetImage(resourses.GetCharacter(character.Key),
                     character.Value);
             }
+            FrameText.Text = curr_scene[frame].text;
             LoadingSplash.Opacity = 0;
         }
     }
