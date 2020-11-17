@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows.Media.Imaging;
+using Ionic.Zip;
 
 namespace NC_Client
 {
@@ -67,6 +69,23 @@ namespace NC_Client
         public Character GetCharacter(string name)
         {
             return characters[name];
+        }
+        public static MemoryStream ReadFromZip(string zipPath, string fileName)
+        {
+            using (ZipFile zip = ZipFile.Read(zipPath))
+            {
+                foreach (ZipEntry zipEntry in zip)
+                {
+                    if (zipEntry.FileName.Contains(fileName))
+                    {
+                        MemoryStream stream = new MemoryStream();
+                        zipEntry.Extract(stream);
+                        stream.Seek(0, SeekOrigin.End);
+                        return stream;
+                    }
+                }
+            }
+            throw new Exception("Файл не найден");
         }
 
     }

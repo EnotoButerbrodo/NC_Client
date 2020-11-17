@@ -119,24 +119,6 @@ namespace NC_Client
                 MessageBox.Show(ex.Message);
             }
         }
-        MemoryStream ReadFromZip(string zipPath, string fileName)
-        {
-    
-            using (ZipFile zip = ZipFile.Read(zipPath))
-            {
-                foreach (ZipEntry zipEntry in zip)
-                {
-                    if (zipEntry.FileName.Contains(fileName))
-                    {
-                        MemoryStream stream = new MemoryStream();
-                        zipEntry.Extract(stream);
-                        stream.Seek(0, SeekOrigin.End);
-                        return stream;
-                    }
-                }
-            }
-            throw new Exception("Файл не найден");
-        }
 
         void SaveList(List<string> image_list)
         {
@@ -244,7 +226,7 @@ namespace NC_Client
                     //Добавляем новый спрайт, только если ещё нет в ресурсах
                     if (!resourses.SpriteInList(character.Key, sprite))
                     {
-                        BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                        BitmapImage image = Resourses.ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                             sprite).toBitmapImage();
                         resourses.AddSprite(character.Key, sprite, image);
                     }
@@ -268,7 +250,7 @@ namespace NC_Client
             {
                 if (!resourses.BackgroundInList(sprite))
                 {
-                    BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                    BitmapImage image = Resourses.ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
                             sprite).toBitmapImage();
                     resourses.AddBackground(sprite, image);
                 }
