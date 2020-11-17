@@ -11,19 +11,20 @@
         <Button Content="Button" HorizontalAlignment="Left" Margin="739,325,0,0" VerticalAlignment="Top" Click="Button_Click" Panel.ZIndex="1"/>
         <Button Content="Button2" HorizontalAlignment="Left" Margin="791,325,0,0" VerticalAlignment="Top" Click="Button_Click2" Panel.ZIndex="1"/>
         <Canvas x:Name="Characters_place"  Grid.Row="0" Grid.Column="0">
-
         </Canvas>
 
         <Grid x:Name="Interface" Panel.ZIndex="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="0.1*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Image Source="/Resources/textbox.png" Grid.Column="1" Grid.Row="1" Stretch="Fill"/>
         </Grid>
     </Grid>
 
