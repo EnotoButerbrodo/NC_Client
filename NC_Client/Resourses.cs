@@ -27,7 +27,28 @@ namespace NC_Client
         {
             return characters[name];
         }
+        public BitmapImage GetSprite(string char_name, string sprite_name)
+        {
+            return characters[char_name].sprites[sprite_name];
+        }
 
+        public static MemoryStream ReadFromZip(string zipPath, string fileName)
+        {
+            using (ZipFile zip = ZipFile.Read(zipPath))
+            {
+                foreach (ZipEntry zipEntry in zip)
+                {
+                    if (zipEntry.FileName.Contains(fileName))
+                    {
+                        MemoryStream stream = new MemoryStream();
+                        zipEntry.Extract(stream);
+                        stream.Seek(0, SeekOrigin.End);
+                        return stream;
+                    }
+                }
+            }
+            throw new Exception("Файл не найден");
+        }
         public void LoadScene(Scene scene, Canvas place)
         {
             LoadCharacters(scene, place);
@@ -114,23 +135,7 @@ namespace NC_Client
         {
             return backgrounds.ContainsKey(name);
         }
-        public static MemoryStream ReadFromZip(string zipPath, string fileName)
-        {
-            using (ZipFile zip = ZipFile.Read(zipPath))
-            {
-                foreach (ZipEntry zipEntry in zip)
-                {
-                    if (zipEntry.FileName.Contains(fileName))
-                    {
-                        MemoryStream stream = new MemoryStream();
-                        zipEntry.Extract(stream);
-                        stream.Seek(0, SeekOrigin.End);
-                        return stream;
-                    }
-                }
-            }
-            throw new Exception("Файл не найден");
-        }
+        
 
         public int CharactersCount
         {
