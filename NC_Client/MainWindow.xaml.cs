@@ -209,7 +209,7 @@ namespace NC_Client
             
             CharactersSetup(curr_scene);
             BackgroundsSetup(curr_scene);
-            LoadingSplash.Opacity = 0;
+
 
 
         }
@@ -281,6 +281,7 @@ namespace NC_Client
                 Character.SetImage(resourses.GetCharacter(character.Key),
                     character.Value);
             }
+            LoadingSplash.Opacity = 0;
         }
     }
 }
