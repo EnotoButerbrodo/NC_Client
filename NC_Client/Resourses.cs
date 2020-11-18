@@ -46,7 +46,6 @@ namespace NC_Client
                     {
                         MemoryStream stream = new MemoryStream();
                         zipEntry.Extract(stream);
-                        stream.Seek(0, SeekOrigin.End);
                         return stream;
                     }
                 }

@@ -64,24 +64,32 @@ namespace NC_Client
                 }
             }
         }
+
         void ChangeFrame(Scene scene, int frame)
         {
 
-            string frame_backgroud = scene[frame].background;
-            BitmapImage background_image = resourses.GetBackground(frame_backgroud);
+            SetupBackgroundImage(scene, frame);
+            SetupCharactersSprites(scene, frame);
+            ShowText(scene, frame, 25);
+        }
+        void SetupBackgroundImage(Scene scene, int frame)
+        {
+            BitmapImage background_image = resourses.GetBackground(scene[frame].background);
             BackgroundImage.Source = background_image;
+        }
+        void SetupCharactersSprites(Scene scene, int frame)
+        {
             foreach (var character in scene[frame].sprites)
             {
                 Character.SetImage(resourses.GetCharacter(character.Key),
                     character.Value);
             }
-            ShowText(frame, 25);
         }
-        async void ShowText(int frame, int time_del)
+        async void ShowText(Scene scene, int frame, int time_del)
         {
             FrameText.Text = "";
             skip = false;
-            foreach (char sign in curr_scene[frame].text)
+            foreach (char sign in scene[frame].text)
             {
                 if (skip)
                 {
@@ -136,6 +144,66 @@ namespace NC_Client
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+        void CreateTestScene()
+        {
+            //Синтетическое создание сцены
+            //Синтетический фрейм
+
+            List<Frame> frames = new List<Frame>();
+            frames.Add(new Frame()
+            {
+                text = "Привет всем. Это первый самостоятельный фрейм. И на самом деле это ограмная честь " +
+                "иметь возможность поговрить с вами сегодня",
+                character = "Monika",
+                background = "Class1.png",
+
+            });
+            frames[0].sprites.Add("Monika", "Default.png");
+            frames[0].chacters_size.Add("Monika", 1.0);
+
+            frames.Add(new Frame()
+            {
+                text = "А это уже второй, но я волнуюсь все так же сильно, как и в первый. Безусловно, это невероятно" +
+                " наконец то мои слова были услышаны!",
+                character = "Monika",
+                background = "Class1.png",
+            });
+            frames[1].sprites.Add("Monika", "Teaching_sad.png");
+            frames[1].chacters_size.Add("Monika", 1.0);
+
+            frames.Add(new Frame()
+            {
+                text = "Третий фрейм делает безумные вещи!3333333333333333333333 ",
+                character = "Monika",
+                background = "Class2.png",
+            });
+            frames[2].sprites.Add("Monika", "Teaching_sad.png");
+            frames[2].chacters_size.Add("Monika", 1.0);
+
+            frames.Add(new Frame()
+            {
+                text = "Третий фрейм делает безумные вещи!3333333333333333333333 ",
+                character = "Lilly",
+                background = "Class2.png",
+            });
+            frames[3].sprites.Add("Monika", "Teaching_sad.png");
+            frames[3].sprites.Add("Lilly", "lilly_basic_ara.png");
+            frames[3].chacters_size.Add("Monika", 1.0);
+
+            Scene scene = new Scene()
+            {
+                name = "FirstScene",
+                used_backgrouds = new string[] { "Class1.png", "Class2.png" },
+                used_sprites = new Dictionary<string, string[]>()
+                {
+                    ["Monika"] = new string[] { "Default.png", "Teaching_sad.png" },
+                    ["Lilly"] = new string[] { "lilly_basic_cheerful.png", "lilly_basic_ara.png" }
+                }
+
+            };
+            scene.frames = frames.ToArray();
+            SaveSceneFile("script.txt", scene);
         }
     }
 }

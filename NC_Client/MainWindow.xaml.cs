@@ -37,51 +37,18 @@ namespace NC_Client
             Effects.ShowLoadingSplash(LoadingSplash);
         }
 
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ChangeFrame(curr_scene, curr_frame++%curr_scene.Length);
+            ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);
             Effects.HideLoadingSplash(LoadingSplash,1000);
+
         }
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
-            //Синтетическое создание сцены
-            //Синтетический фрейм
-
-            List<Frame> frames = new List<Frame>();
-            frames.Add(new Frame()
-            {
-                text = "Привет всем. Это первый самостоятельный фрейм. И на самом деле это ограмная честь" +
-                "Иметь возможность поговрить с вами сегодня",
-                character = "Monika",
-                background = "Class1.png",
-
-            });
-            frames[0].sprites.Add("Monika", "Default.png");
-            frames[0].chacters_size.Add("Monika", 1.0);
-            frames.Add(new Frame()
-            {
-                text = "А это уже второй, но я волнуюсь все так же сильно, как и в первый. Безусловно, это невероятно" +
-                "Наконец то мои слова были услышаны!",
-                character = "Monika",
-                background = "Class1.png",
-            });
-            frames[1].sprites.Add("Monika", "Teaching_sad.png");
-            frames[1].chacters_size.Add("Monika", 1.0);
-
-            Scene first = new Scene()
-            {
-                name = "FirstScene",
-                used_backgrouds = new string[] { "Class1.png", "Class2.png" },
-                used_sprites = new Dictionary<string, string[]>()
-                {
-                    ["Monika"] = new string[] { "Default.png", "Teaching_sad.png" },
-                    ["Lilly"] = new string[] { "lilly_basic_cheerful.png" }
-                }
-
-            };
-            first.frames = frames.ToArray();
-            SaveSceneFile("script.txt", first);
+            
             Effects.ShowLoadingSplash(LoadingSplash);
+            CreateTestScene();
             curr_scene = LoadSceneFile("script.txt");
 
 
