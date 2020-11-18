@@ -28,8 +28,6 @@ namespace NC_Client
         #region Variables
 
         SettingsFile settings = new SettingsFile();
-        Dictionary<string, BitmapImage> backgrouds = new Dictionary<string, BitmapImage>();
-        Dictionary<string, Character> characters = new Dictionary<string, Character>();
         Scene curr_scene;
         Dictionary<string, SolidColorBrush> nameColor = new Dictionary<string, SolidColorBrush>()
         {
@@ -74,15 +72,15 @@ namespace NC_Client
         }
         void SetupBackgroundImage(Scene scene, int frame)
         {
-            BitmapImage background_image = resourses.GetBackground(scene[frame].background);
+            BitmapImage background_image = resourses.GetBackground(SceneReader.GetBackground(scene, frame));
             BackgroundImage.Source = background_image;
         }
         void SetupCharactersSprites(Scene scene, int frame)
         {
-            foreach (var character in scene[frame].sprites)
+            foreach (var character in scene[frame].characters_configuration)
             {
                 Character.SetImage(resourses.GetCharacter(character.Key),
-                    character.Value);
+                   SceneReader.GetCharacterSprite(scene, frame, character.Key));
             }
         }
         async void ShowText(Scene scene, int frame, int time_del)
@@ -153,43 +151,49 @@ namespace NC_Client
             List<Frame> frames = new List<Frame>();
             frames.Add(new Frame()
             {
-                text = "Привет всем. Это первый самостоятельный фрейм. И на самом деле это ограмная честь " +
-                "иметь возможность поговрить с вами сегодня",
-                character = "Monika",
-                background = "Class1.png",
-
-            });
-            frames[0].sprites.Add("Monika", "Default.png");
-            frames[0].chacters_size.Add("Monika", 1.0);
-
-            frames.Add(new Frame()
-            {
-                text = "А это уже второй, но я волнуюсь все так же сильно, как и в первый. Безусловно, это невероятно" +
-                " наконец то мои слова были услышаны!",
-                character = "Monika",
+                text = "Первый фрейм!!! Первый фрейм!!! Первый фрейм!!! Первый фрейм!!!",
+                speaker = "Monika",
                 background = "Class1.png",
             });
-            frames[1].sprites.Add("Monika", "Teaching_sad.png");
-            frames[1].chacters_size.Add("Monika", 1.0);
+            Character_info charinfo1 = new Character_info()
+            {
+                sprite = "Default.png",
+                character_size = 1.0,
+                presense = Presense.IN,
+                position = new Point(0, 0)
+            };
+            frames[0].characters_configuration.Add("Monika", charinfo1);
 
             frames.Add(new Frame()
             {
-                text = "Третий фрейм делает безумные вещи!3333333333333333333333 ",
-                character = "Monika",
-                background = "Class2.png",
+                text = "Второй фрейм!!! Второй фрейм!!! Второй фрейм!!! Второй фрейм!!!",
+                speaker = "Monika",
+                background = "Class1.png",
             });
-            frames[2].sprites.Add("Monika", "Teaching_sad.png");
-            frames[2].chacters_size.Add("Monika", 1.0);
+            charinfo1 = new Character_info()
+            {
+                sprite = "Teaching.png",
+                character_size = 1.0,
+                presense = Presense.STAY,
+                position = new Point(0, 0)
+            };
+            frames[1].characters_configuration.Add("Monika", charinfo1);
 
             frames.Add(new Frame()
             {
-                text = "Третий фрейм делает безумные вещи!3333333333333333333333 ",
-                character = "Lilly",
-                background = "Class2.png",
+                text = "Третий фрейм!!! Третий фрейм!!! Третий фрейм!!! Третий фрейм!!!",
+                speaker = "Monika",
+                background = "Class1.png",
             });
-            frames[3].sprites.Add("Monika", "Teaching_sad.png");
-            frames[3].sprites.Add("Lilly", "lilly_basic_ara.png");
-            frames[3].chacters_size.Add("Monika", 1.0);
+            charinfo1 = new Character_info()
+            {
+                sprite = "Teaching_sad.png",
+                character_size = 1.0,
+                presense = Presense.OUT,
+                position = new Point(0, 0)
+            };
+            frames[2].characters_configuration.Add("Monika", charinfo1);
+
 
             Scene scene = new Scene()
             {
@@ -197,8 +201,7 @@ namespace NC_Client
                 used_backgrouds = new string[] { "Class1.png", "Class2.png" },
                 used_sprites = new Dictionary<string, string[]>()
                 {
-                    ["Monika"] = new string[] { "Default.png", "Teaching_sad.png" },
-                    ["Lilly"] = new string[] { "lilly_basic_cheerful.png", "lilly_basic_ara.png" }
+                    ["Monika"] = new string[] { "Default.png", "Teaching.png", "Teaching_sad.png" }
                 }
 
             };

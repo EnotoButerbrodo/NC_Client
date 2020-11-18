@@ -51,11 +51,7 @@ namespace NC_Client
             CreateTestScene();
             curr_scene = LoadSceneFile("script.txt");
 
-
-            //CharactersSetup(curr_scene);
-            //BackgroundsSetup(curr_scene);
             resourses.LoadScene(curr_scene, Characters_place);
-
 
         }
         private void ClickHandler_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

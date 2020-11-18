@@ -132,7 +132,7 @@ namespace NC_Client
         } 
         bool SpriteInList(string char_name, string sprite_name)
         {
-            return characters[char_name].sprites.ContainsKey(sprite_name);
+            return characters[char_name].sprites.ContainsKey(char_name);
         }
         bool BackgroundInList(string name)
         {

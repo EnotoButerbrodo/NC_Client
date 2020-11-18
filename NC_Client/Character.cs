@@ -24,7 +24,9 @@ namespace NC_Client
         public Dictionary<string, BitmapImage> sprites { get; set; }
         public Point position { get; set; }
         public double size { get; set; }
+        bool Visible { get; set; } = false;
         public Image image { get; set; }
+
         public static void SetImage(Character character, string sprite)
         {
             character.image.Source = character.sprites[sprite];
