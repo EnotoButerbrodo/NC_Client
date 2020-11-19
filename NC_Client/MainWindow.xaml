@@ -27,7 +27,9 @@
                 <ColumnDefinition Width="8*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Image x:Name="NameBoxBackground"  Grid.Column="1" Grid.Row="1" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Stretch="Uniform" RenderTransformOrigin="0.5,1" Source="/Resources/namebox.png"/>
+            <Image x:Name="NameboxBackground" Grid.Column="1" Grid.Row="1" Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Stretch="Uniform" Source="/Resources/namebox.png"/>
+            <TextBlock x:Name="Namebox" Grid.Column="1" Grid.Row="1" Margin="25,5,0,0" HorizontalAlignment="Left" Width="110" Foreground="White" TextWrapping="Wrap"
+                       Text="Monika" FontSize="20"/>
             <Image x:Name="FrameTextBackground" Source="/Resources/textbox.png" Grid.Column="1" Grid.Row="2" Stretch="Fill"/>
             <TextBlock  x:Name="FrameText" Grid.Column="1" Grid.Row="2" Margin="15" FontSize="20"
                        Text="Это тестовый текст" Foreground="White" TextWrapping="Wrap">
