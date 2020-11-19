@@ -87,6 +87,8 @@ namespace NC_Client
         async void ShowText(Scene scene, int frame, int time_del)
         {
             FrameText.Text = "";
+            Namebox.Text = SceneReader.GetSpeaker(scene, frame);
+            Namebox.Foreground = resourses.GetCharacterNamecolor(Namebox.Text);
             skip = false;
             foreach (char sign in scene[frame].text)
             {

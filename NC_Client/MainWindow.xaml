@@ -28,8 +28,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Image x:Name="NameboxBackground" Grid.Column="1" Grid.Row="1" Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Stretch="Uniform" Source="/Resources/namebox.png"/>
-            <TextBlock x:Name="Namebox" Grid.Column="1" Grid.Row="1" Margin="25,5,0,0" HorizontalAlignment="Left" Width="110" Foreground="White" TextWrapping="Wrap"
-                       Text="Monika" FontSize="20"/>
+            <TextBlock x:Name="Namebox" Grid.Column="1" Grid.Row="1" Margin="31,0,0,3" HorizontalAlignment="Left" Width="110" Foreground="White" TextWrapping="Wrap"
+                       Text="Lilly" FontSize="20" VerticalAlignment="Center" FontWeight="Bold"/>
             <Image x:Name="FrameTextBackground" Source="/Resources/textbox.png" Grid.Column="1" Grid.Row="2" Stretch="Fill"/>
             <TextBlock  x:Name="FrameText" Grid.Column="1" Grid.Row="2" Margin="15" FontSize="20"
                        Text="Это тестовый текст" Foreground="White" TextWrapping="Wrap">
