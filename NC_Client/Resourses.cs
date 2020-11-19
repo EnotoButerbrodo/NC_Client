@@ -103,7 +103,7 @@ namespace NC_Client
             character.image.Height = 400;
             Canvas.SetLeft(character.image, character.position.X + 250);
             Canvas.SetBottom(character.image, character.position.Y);
-            character.image.Stretch = Stretch.Fill;
+            character.image.Stretch = Stretch.Uniform;
             character.image.EndInit();
         }
         void LoadBackgrounds(Scene scene)
