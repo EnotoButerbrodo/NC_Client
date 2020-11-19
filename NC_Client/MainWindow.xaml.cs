@@ -35,17 +35,17 @@ namespace NC_Client
         {
             InitializeComponent();
             Effects.ShowLoadingSplash(LoadingSplash);
-            CreateTestScene();
-            curr_scene = LoadSceneFile("script.txt");
-            resourses.LoadScene(curr_scene, Characters_place);
-            ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);
-            Effects.HideLoadingSplash(LoadingSplash, 1000);
             
         }
 
         
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            CreateTestScene();
+            curr_scene = LoadSceneFile("script.txt");
+            resourses.LoadScene(curr_scene, Characters_place);
+            ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);
+            Effects.HideLoadingSplash(LoadingSplash);
 
         }
         private void Button_Click2(object sender, RoutedEventArgs e)

@@ -18,7 +18,13 @@ namespace NC_Client
         }
         Dictionary<string, Character> characters;
         Dictionary<string, BitmapImage> backgrounds;
-        
+
+        Dictionary<string, SolidColorBrush> nameColor = new Dictionary<string, SolidColorBrush>()
+        {
+            ["Monika"] = Brushes.Red,
+            ["Lilly"] = Brushes.Green
+        };
+
         public BitmapImage GetBackground(string name)
         {
             if(BackgroundInList(name))
@@ -68,7 +74,7 @@ namespace NC_Client
                     Character new_char = new Character()
                     {
                         name = character.Key,
-                        //nameColor = nameColor[character.Key]
+                        nameColor = nameColor[character.Key]
                     };
                     CreateImageForCharacter(new_char);
 
@@ -83,7 +89,7 @@ namespace NC_Client
                     //Добавляем новый спрайт, только если ещё нет в ресурсах
                     if (!SpriteInList(character.Key, sprite))
                     {
-                        BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                        BitmapImage image = ReadFromZip(@"Resourses\images.zip",
                             sprite).toBitmapImage();
                         AddSprite(character.Key, sprite, image);
                     }
@@ -106,7 +112,7 @@ namespace NC_Client
             {
                 if (!BackgroundInList(sprite))
                 {
-                    BitmapImage image = ReadFromZip(@"C:\Users\Игорь\Desktop\done\NCE_content\images.zip",
+                    BitmapImage image = ReadFromZip(@"Resourses\images.zip",
                             sprite).toBitmapImage();
                     AddBackground(sprite, image);
                 }

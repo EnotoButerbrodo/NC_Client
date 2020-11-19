@@ -26,7 +26,7 @@ namespace NC_Client
     {
         public string sprite { get; set; }
         public double character_size { get; set; }
-        public Presense presense { get; set; }
+        public Presense presense { get; set; } = Presense.STAY;
         public Point position { get; set; }
     }
     public enum Presense

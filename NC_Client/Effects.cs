@@ -14,24 +14,19 @@ namespace NC_Client
         {
             screen.Opacity = 1;
         }
-        public static void HideLoadingSplash(Rectangle screen)
-        {
-            screen.Opacity = 0;
-        }
-        async public static void HideLoadingSplash(Rectangle screen, int time_mc)
+        async public static void HideLoadingSplash(Rectangle screen)
         {
             while (screen.Opacity > 0.0)
             {
-                screen.Opacity -= 0.01;
-                await Task.Delay(time_mc / 1000);
+                screen.Opacity -= 0.05;
+                await Task.Delay(1);
             }
-
         }
         async public static void ShowCharacter(Character character)
         {
             while (character.image.Opacity < 1D)
             {
-                character.image.Opacity += 0.01;
+                character.image.Opacity += 0.05;
                 await Task.Delay(1);
             }
         }
@@ -39,7 +34,7 @@ namespace NC_Client
         {
             while (character.image.Opacity > 0)
             {
-                character.image.Opacity -= 0.01;
+                character.image.Opacity -= 0.05;
                 await Task.Delay(1);
             }
         }

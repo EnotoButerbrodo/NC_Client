@@ -195,6 +195,35 @@ namespace NC_Client
             };
             frames[2].characters_configuration.Add("Monika", charinfo1);
 
+            frames.Add(new Frame()
+            {
+                text = "Четверый фрейм!!! Четверый фрейм!!! Четверый фрейм!!! Четверый фрейм!!!",
+                speaker = "Lilly",
+                background = "Class1.png",
+            });
+            charinfo1 = new Character_info()
+            {
+                sprite = "lilly_basic_ara.png",
+                character_size = 1.0,
+                presense = Presense.IN,
+                position = new Point(0, 0)
+            };
+            frames[3].characters_configuration.Add("Lilly", charinfo1);
+
+            frames.Add(new Frame()
+            {
+                text = "Пятый!",
+                speaker = "Lilly",
+                background = "Class1.png",
+            });
+            charinfo1 = new Character_info()
+            {
+                sprite = "lilly_basic_ara.png",
+                character_size = 1.0,
+                presense = Presense.OUT,
+                position = new Point(0, 0)
+            };
+            frames[4].characters_configuration.Add("Lilly", charinfo1);
 
             Scene scene = new Scene()
             {
@@ -202,7 +231,8 @@ namespace NC_Client
                 used_backgrouds = new string[] { "Class1.png", "Class2.png" },
                 used_sprites = new Dictionary<string, string[]>()
                 {
-                    ["Monika"] = new string[] { "Default.png", "Teaching.png", "Teaching_sad.png" }
+                    ["Monika"] = new string[] { "Default.png", "Teaching.png", "Teaching_sad.png"},
+                    ["Lilly"] = new string[] { "lilly_basic_ara.png" }
                 }
 
             };
