@@ -9,7 +9,7 @@ using Ionic.Zip;
 
 namespace NC_Client
 {
-    class Resourses
+    public class Resourses
     {
         public Resourses()
         {

@@ -34,7 +34,7 @@ namespace NC_Client
             ["Monika"] = Brushes.Red,
             ["Lilly"] = Brushes.Green
         };
-        Resourses resourses = new Resourses();
+        public Resourses resourses = new Resourses();
         int curr_frame = 0;
         bool skip = false;
 
@@ -68,6 +68,7 @@ namespace NC_Client
 
             SetupBackgroundImage(scene, frame);
             SetupCharactersSprites(scene, frame);
+            CheckMoveEffects(scene, frame);
             ShowText(scene, frame, 25);
         }
         void SetupBackgroundImage(Scene scene, int frame)
@@ -207,6 +208,23 @@ namespace NC_Client
             };
             scene.frames = frames.ToArray();
             SaveSceneFile("script.txt", scene);
+        }
+        public void CheckMoveEffects(Scene scene, int frame)
+        {
+            foreach (var character in scene[frame].characters_configuration) {
+                switch (SceneReader.GetCharacterPresense(scene, frame, character.Key))
+                {
+                    case Presense.IN:
+                        Effects.ShowCharacter(resourses.GetCharacter(character.Key));
+                        break;
+                    case Presense.STAY:
+                        continue;
+     
+                    case Presense.OUT:
+                        Effects.HideCharacter(resourses.GetCharacter(character.Key));
+                        break;
+                }
+            }
         }
     }
 }

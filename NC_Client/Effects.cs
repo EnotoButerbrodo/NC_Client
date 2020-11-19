@@ -27,21 +27,23 @@ namespace NC_Client
             }
 
         }
-        public static void ShowCharacter(Character character)
+        async public static void ShowCharacter(Character character)
         {
-            character.image.Opacity = 1;
-        }
-        public static void HideCharacter(Character character)
-        {
-            character.image.Opacity = 0;
-        }
-        async public static void HideCharacter(Character character, int time_mc)
-        {
-            while (character.image.Opacity > 0.0)
+            while (character.image.Opacity < 1D)
             {
-                character.image.Opacity -= 0.01;
-                await Task.Delay(time_mc / 1000);
+                character.image.Opacity += 0.01;
+                await Task.Delay(1);
             }
         }
+        async public static void HideCharacter(Character character)
+        {
+            while (character.image.Opacity > 0)
+            {
+                character.image.Opacity -= 0.01;
+                await Task.Delay(1);
+            }
+        }
+        
+        
     }
 }
