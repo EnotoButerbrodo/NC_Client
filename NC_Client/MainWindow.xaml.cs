@@ -44,7 +44,7 @@ namespace NC_Client
             CreateTestScene();
             Scene newScene = LoadSceneFile("script.json");
             Effects.HideLoadingSplash(LoadingSplash);
-            ShowText(curr_scene, 1, 35);
+            ShowText(curr_scene, 0, 35);
             //curr_scene = LoadSceneFile("script.json");
             //resourses.LoadScene(curr_scene, Characters_place);
             //ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);

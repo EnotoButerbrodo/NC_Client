@@ -90,9 +90,8 @@ namespace NC_Client
 
             FrameText.Text = "";
 
-
             Namebox.Text = scene[frame].speaker ?? "";
-            Namebox.Foreground ??= resourses.GetNamecolor(scene[frame].speaker);
+            Namebox.Foreground = resourses.GetNamecolor(scene[frame].speaker) ?? Namebox.Foreground;
 
             if (scene[frame].text != null)
             {
@@ -105,7 +104,6 @@ namespace NC_Client
                         FrameText.Text = curr_scene[frame].text;
                         break;
                     }
-
                     FrameText.Text += sign;
                     if (sign == ' ') continue;
                     await Task.Delay(time_del);
