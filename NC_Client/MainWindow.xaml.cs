@@ -42,6 +42,7 @@ namespace NC_Client
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             CreateTestScene();
+            Scene newScene = LoadSceneFile("script.json");
             //curr_scene = LoadSceneFile("script.json");
             //resourses.LoadScene(curr_scene, Characters_place);
             //ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);

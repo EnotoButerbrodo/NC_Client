@@ -59,7 +59,7 @@ namespace NC_Client
                 using (var reader = new StreamReader(fs))
                 {
                     string file = reader.ReadToEnd();
-                    return JsonSerializer.Deserialize<Scene>(file);
+                    return JsonSerializer.Deserialize<Scene>(file, new JsonSerializerOptions { IgnoreNullValues = true });
                 }
             }
         }
