@@ -6,7 +6,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Ionic.Zip;
-
 namespace NC_Client
 {
     public class Resourses
@@ -62,12 +61,12 @@ namespace NC_Client
             }
             throw new Exception("Файл не найден");
         }
-        public void LoadScene(Scene scene, Canvas place)
+        public void LoadSceneResourses(Scene scene, Canvas place)
         {
-            LoadCharacters(scene, place);
-            LoadBackgrounds(scene);
+            LoadCharactersResourses(scene, place);
+            LoadBackgroundsResourses(scene);
         }
-        void LoadCharacters(Scene scene, Canvas place)
+        void LoadCharactersResourses(Scene scene, Canvas place)
         {
             foreach (var character in scene.used_sprites)
             {
@@ -110,7 +109,7 @@ namespace NC_Client
             character.image.Stretch = Stretch.Uniform;
             character.image.EndInit();
         }
-        void LoadBackgrounds(Scene scene)
+        void LoadBackgroundsResourses(Scene scene)
         {
             foreach (string sprite in scene.used_backgrouds)
             {
