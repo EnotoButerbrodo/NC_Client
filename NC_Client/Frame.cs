@@ -20,19 +20,6 @@ namespace NC_Client
         public Background_info background_config { get; set; }
         [JsonPropertyName("ch_c")]
         public Dictionary<string, Character_info> characters_config { get; set; }
-
-        public void AddCharacterInfo(string char_name, Character_info info)
-        {
-            characters_config.Add(char_name, info);
-        }
-
-        public void AddBackgroundInfo(Background_info back_info)
-        {
-            background_config = back_info;
-        }
-
-        
-       
     }
     [Serializable]
     public class Background_info

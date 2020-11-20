@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -66,6 +67,7 @@ namespace NC_Client
             LoadCharactersResourses(scene, place);
             LoadBackgroundsResourses(scene);
         }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         void LoadCharactersResourses(Scene scene, Canvas place)
         {
             foreach (var character in scene.used_sprites)
@@ -99,6 +101,8 @@ namespace NC_Client
                 }
             }
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         void CreateImageForCharacter(Character character)
         {
             character.image.BeginInit();
@@ -109,6 +113,8 @@ namespace NC_Client
             character.image.Stretch = Stretch.Uniform;
             character.image.EndInit();
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         void LoadBackgroundsResourses(Scene scene)
         {
             foreach (string sprite in scene.used_backgrouds)
@@ -122,32 +128,42 @@ namespace NC_Client
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         void AddCharacter(string name, Character character)
         {
             characters.Add(name, character);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         void AddBackground(string name, BitmapImage image)
         {
             backgrounds.Add(name, image);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         void AddSprite(string char_name, string sprite_name, BitmapImage image)
         {
             characters[char_name].sprites.Add(sprite_name, image);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool CharacterInList(string name)
         {
             return characters.ContainsKey(name);
-        } 
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool SpriteInList(string char_name, string sprite_name)
         {
             return characters[char_name].sprites.ContainsKey(char_name);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool BackgroundInList(string name)
         {
             return backgrounds.ContainsKey(name);
         }
-        
+
 
         public int CharactersCount
         {
@@ -163,13 +179,5 @@ namespace NC_Client
                 return backgrounds.Count;
             }
         }
-        //BitmapImage toBitmapImage(MemoryStream stream)
-        //{
-        //    BitmapImage src = new BitmapImage();
-        //    src.BeginInit();
-        //    src.StreamSource = stream;
-        //    src.EndInit();
-        //    return src;
-        //}
     }
 }
