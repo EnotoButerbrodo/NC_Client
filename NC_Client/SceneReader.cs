@@ -17,10 +17,11 @@ namespace NC_Client
         {
             return scene[frame].speaker;
         }
-        //public static string GetBackground(Scene scene, int frame)
-        //{
-        //    return scene[frame].background;
-        //}
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string GetBackground(Scene scene, int frame)
+        {
+            return scene[frame].background_config.background;
+        }
 
 
     }

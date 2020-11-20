@@ -29,7 +29,7 @@ namespace NC_Client
         {
             if(BackgroundInList(name))
             return backgrounds[name];
-            throw new Exception("Файл отсуствует");
+            throw new Exception("Фон отсуствует");
         }
         public Character GetCharacter(string name)
         {

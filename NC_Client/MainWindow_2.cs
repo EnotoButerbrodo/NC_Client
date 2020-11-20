@@ -64,34 +64,36 @@ namespace NC_Client
             }
         }
 
-        //void ChangeFrame(Scene scene, int frame)
-        //{
+        void ChangeFrame(Scene scene, int frame)
+        {
 
-        //    SetupBackgroundImage(scene, frame);
-        //    SetupCharactersSprites(scene, frame);
-        //    //CheckMoveEffects(scene, frame);
-        //    ShowText(scene, frame, 25);
-        //}
-        //void SetupBackgroundImage(Scene scene, int frame)
-        //{
-        //    BitmapImage background_image = resourses.GetBackground(SceneReader.GetBackground(scene, frame));
-        //    BackgroundImage.Source = background_image;
-        //}
-        //void SetupCharactersSprites(Scene scene, int frame)
-        //{
-        //    foreach (var character in scene[frame].characters_configuration)
-        //    {
-        //        Character.SetImage(resourses.GetCharacter(character.Key),
-        //           SceneReader.GetCharacterSprite(scene, frame, character.Key));
-        //    }
-        //}
+            SetupBackgroundImage(scene, frame);
+            SetupCharactersSprites(scene, frame);
+            //CheckMoveEffects(scene, frame);
+            ShowText(scene, frame, 25);
+        }
+        void SetupBackgroundImage(Scene scene, int frame)
+        { 
+            BackgroundImage.Source = resourses.GetBackground(scene[frame].background_config.background);
+        }
+        void SetupCharactersSprites(Scene scene, int frame)
+        {
+            foreach (var character in scene[frame].characters_config)
+            {
+                Character.SetImage(resourses.GetCharacter(character.Key),
+                   scene[frame].characters_config[character.Key].sprite);
+            }
+        }
         async void ShowText(Scene scene, int frame, int time_del)
         {
 
             FrameText.Text = "";
 
-            Namebox.Text = scene[frame].speaker ?? "";
-            Namebox.Foreground = resourses.GetNamecolor(scene[frame].speaker) ?? Namebox.Foreground;
+            if(scene[frame].speaker != null)
+            {
+                Namebox.Text = scene[frame].speaker;
+                Namebox.Foreground = resourses.GetNamecolor(scene[frame].speaker);
+            }
 
             if (scene[frame].text != null)
             {

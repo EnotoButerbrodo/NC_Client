@@ -42,9 +42,10 @@ namespace NC_Client
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             CreateTestScene();
-            Scene newScene = LoadSceneFile("script.json");
+            curr_scene = LoadSceneFile("script.json");
+            resourses.LoadSceneResourses(curr_scene, Characters_place);
             Effects.HideLoadingSplash(LoadingSplash);
-            ShowText(curr_scene, 0, 35);
+            ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);
             //curr_scene = LoadSceneFile("script.json");
             //resourses.LoadScene(curr_scene, Characters_place);
             //ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);
@@ -64,7 +65,7 @@ namespace NC_Client
                 curr_frame = curr_frame++ % curr_scene.Length;
                 return;
             }
-            //ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);
+            ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);
 
         }
     }
