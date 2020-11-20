@@ -87,21 +87,29 @@ namespace NC_Client
         //}
         async void ShowText(Scene scene, int frame, int time_del)
         {
-            FrameText.Text = "";
-            Namebox.Text = SceneReader.GetSpeaker(scene, frame);
-            Namebox.Foreground = resourses.GetCharacterNamecolor(Namebox.Text);
-            skip = false;
-            foreach (char sign in scene[frame].text)
-            {
-                if (skip)
-                {
-                    FrameText.Text = curr_scene[frame].text;
-                    break;
-                }
 
-                FrameText.Text += sign;
-                if (sign == ' ') continue;
-                await Task.Delay(time_del);
+            FrameText.Text = "";
+
+
+            Namebox.Text = scene[frame].speaker ?? "";
+            Namebox.Foreground ??= resourses.GetNamecolor(scene[frame].speaker);
+
+            if (scene[frame].text != null)
+            {
+
+                skip = false;
+                foreach (char sign in scene[frame].text)
+                {
+                    if (skip)
+                    {
+                        FrameText.Text = curr_scene[frame].text;
+                        break;
+                    }
+
+                    FrameText.Text += sign;
+                    if (sign == ' ') continue;
+                    await Task.Delay(time_del);
+                }
             }
             skip = true;
         }
@@ -171,17 +179,34 @@ namespace NC_Client
             frames[0].speaker = "Monika";
             frames[0].frame_type = Frame_type.TEXT;
 
-            Scene scene = new Scene();
-            scene.frames = frames.ToArray();
-            scene.name = "First Scene";
-            scene.used_backgrouds = new string[] { "Class1.png" };
-            scene.used_sprites = new Dictionary<string, string[]>
+            back_info = new Background_info();
+            char_info = new Character_info();
+            effect = new Effect();
+
+            //Frame2
+
+            back_info.background = "Class1.png";
+
+            char_info.sprite = "Default.png";
+
+            frames.Add(new Frame());
+            frames[1].background_config = back_info;
+            frames[1].characters_config = new Dictionary<string, Character_info>();
+            frames[1].characters_config.Add("Monika", char_info);
+            frames[1].text = "Второй!";
+            frames[1].frame_type = Frame_type.TEXT;
+
+            curr_scene = new Scene();
+            curr_scene.frames = frames.ToArray();
+            curr_scene.name = "First Scene";
+            curr_scene.used_backgrouds = new string[] { "Class1.png" };
+            curr_scene.used_sprites = new Dictionary<string, string[]>
             {
                 ["Monika"] = new string[] { "Default.png" }
             };
-            //back_info
 
-            SaveSceneFile("script.json", scene);
+
+            SaveSceneFile("script.json", curr_scene);
         }
         //public void CheckMoveEffects(Scene scene, int frame)
         //{

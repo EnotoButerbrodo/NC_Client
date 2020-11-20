@@ -32,5 +32,6 @@ namespace NC_Client
                 return frames[number];
             }
         }
+
     }
 }

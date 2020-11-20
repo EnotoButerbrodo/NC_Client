@@ -37,9 +37,10 @@ namespace NC_Client
             return characters[name];
             throw new Exception("Персонаж отсуствует");
         }
-        public SolidColorBrush GetCharacterNamecolor(string char_name)
+        public SolidColorBrush GetNamecolor(string char_name)
         {
-            return nameColor[char_name];
+            
+            return nameColor[char_name] ?? Brushes.Transparent;
         }
         public BitmapImage GetSprite(string char_name, string sprite_name)
         {
