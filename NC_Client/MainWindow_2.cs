@@ -44,7 +44,8 @@ namespace NC_Client
         {
             using (var fs = File.Open(path, FileMode.OpenOrCreate))
             {
-                string ser_scene = JsonSerializer.Serialize(scene);
+                
+                string ser_scene = JsonSerializer.Serialize(scene, new JsonSerializerOptions { IgnoreNullValues  = true});
                 using (var writer = new StreamWriter(fs))
                 {
                     writer.Write(ser_scene);
@@ -63,27 +64,27 @@ namespace NC_Client
             }
         }
 
-        void ChangeFrame(Scene scene, int frame)
-        {
+        //void ChangeFrame(Scene scene, int frame)
+        //{
 
-            SetupBackgroundImage(scene, frame);
-            SetupCharactersSprites(scene, frame);
-            CheckMoveEffects(scene, frame);
-            ShowText(scene, frame, 25);
-        }
-        void SetupBackgroundImage(Scene scene, int frame)
-        {
-            BitmapImage background_image = resourses.GetBackground(SceneReader.GetBackground(scene, frame));
-            BackgroundImage.Source = background_image;
-        }
-        void SetupCharactersSprites(Scene scene, int frame)
-        {
-            foreach (var character in scene[frame].characters_configuration)
-            {
-                Character.SetImage(resourses.GetCharacter(character.Key),
-                   SceneReader.GetCharacterSprite(scene, frame, character.Key));
-            }
-        }
+        //    SetupBackgroundImage(scene, frame);
+        //    SetupCharactersSprites(scene, frame);
+        //    //CheckMoveEffects(scene, frame);
+        //    ShowText(scene, frame, 25);
+        //}
+        //void SetupBackgroundImage(Scene scene, int frame)
+        //{
+        //    BitmapImage background_image = resourses.GetBackground(SceneReader.GetBackground(scene, frame));
+        //    BackgroundImage.Source = background_image;
+        //}
+        //void SetupCharactersSprites(Scene scene, int frame)
+        //{
+        //    foreach (var character in scene[frame].characters_configuration)
+        //    {
+        //        Character.SetImage(resourses.GetCharacter(character.Key),
+        //           SceneReader.GetCharacterSprite(scene, frame, character.Key));
+        //    }
+        //}
         async void ShowText(Scene scene, int frame, int time_del)
         {
             FrameText.Text = "";
@@ -152,111 +153,52 @@ namespace NC_Client
             //Синтетический фрейм
 
             List<Frame> frames = new List<Frame>();
-            frames.Add(new Frame()
-            {
-                text = "Первый фрейм!!! Первый фрейм!!! Первый фрейм!!! Первый фрейм!!!",
-                speaker = "Monika",
-                background = "Class1.png",
-            });
-            Character_info charinfo1 = new Character_info()
-            {
-                sprite = "Default.png",
-                character_size = 1.0,
-                presense = Presense.IN,
-                position = new Point(0, 0)
-            };
-            frames[0].characters_configuration.Add("Monika", charinfo1);
+            Background_info back_info = new Background_info();
+            Character_info char_info = new Character_info();
+            Effect effect = new Effect();
 
-            frames.Add(new Frame()
-            {
-                text = "Второй фрейм!!! Второй фрейм!!! Второй фрейм!!! Второй фрейм!!!",
-                speaker = "Monika",
-                background = "Class1.png",
-            });
-            charinfo1 = new Character_info()
-            {
-                sprite = "Teaching.png",
-                character_size = 1.0,
-                presense = Presense.STAY,
-                position = new Point(0, 0)
-            };
-            frames[1].characters_configuration.Add("Monika", charinfo1);
+            //Frame1
 
-            frames.Add(new Frame()
-            {
-                text = "Третий фрейм!!! Третий фрейм!!! Третий фрейм!!! Третий фрейм!!!",
-                speaker = "Monika",
-                background = "Class1.png",
-            });
-            charinfo1 = new Character_info()
-            {
-                sprite = "Teaching_sad.png",
-                character_size = 1.0,
-                presense = Presense.OUT,
-                position = new Point(0, 0)
-            };
-            frames[2].characters_configuration.Add("Monika", charinfo1);
+            back_info.background = "Class1.png";
 
-            frames.Add(new Frame()
-            {
-                text = "Четверый фрейм!!! Четверый фрейм!!! Четверый фрейм!!! Четверый фрейм!!!",
-                speaker = "Lilly",
-                background = "Class1.png",
-            });
-            charinfo1 = new Character_info()
-            {
-                sprite = "lilly_basic_ara.png",
-                character_size = 1.0,
-                presense = Presense.IN,
-                position = new Point(0, 0)
-            };
-            frames[3].characters_configuration.Add("Lilly", charinfo1);
+            char_info.sprite = "Default.png";
 
-            frames.Add(new Frame()
-            {
-                text = "Пятый!",
-                speaker = "Lilly",
-                background = "Class1.png",
-            });
-            charinfo1 = new Character_info()
-            {
-                sprite = "lilly_basic_ara.png",
-                character_size = 1.0,
-                presense = Presense.OUT,
-                position = new Point(0, 0)
-            };
-            frames[4].characters_configuration.Add("Lilly", charinfo1);
+            frames.Add(new Frame());
+            frames[0].background_config = back_info;
+            frames[0].characters_config = new Dictionary<string, Character_info>();
+            frames[0].characters_config.Add("Monika", char_info);
+            frames[0].text = "Первый фрейм!";
+            frames[0].speaker = "Monika";
+            frames[0].frame_type = Frame_type.TEXT;
 
-            Scene scene = new Scene()
-            {
-                name = "FirstScene",
-                used_backgrouds = new string[] { "Class1.png", "Class2.png" },
-                used_sprites = new Dictionary<string, string[]>()
-                {
-                    ["Monika"] = new string[] { "Default.png", "Teaching.png", "Teaching_sad.png"},
-                    ["Lilly"] = new string[] { "lilly_basic_ara.png" }
-                }
-
-            };
+            Scene scene = new Scene();
             scene.frames = frames.ToArray();
-            SaveSceneFile("script.txt", scene);
+            scene.name = "First Scene";
+            scene.used_backgrouds = new string[] { "Class1.png" };
+            scene.used_sprites = new Dictionary<string, string[]>
+            {
+                ["Monika"] = new string[] { "Default.png" }
+            };
+            //back_info
+
+            SaveSceneFile("script.json", scene);
         }
-        public void CheckMoveEffects(Scene scene, int frame)
-        {
-            foreach (var character in scene[frame].characters_configuration) {
-                switch (SceneReader.GetCharacterPresense(scene, frame, character.Key))
-                {
-                    case Presense.IN:
-                        Effects.ShowCharacter(resourses.GetCharacter(character.Key));
-                        break;
-                    case Presense.STAY:
-                        continue;
-     
-                    case Presense.OUT:
-                        Effects.HideCharacter(resourses.GetCharacter(character.Key));
-                        break;
-                }
-            }
-        }
+        //public void CheckMoveEffects(Scene scene, int frame)
+        //{
+        //    foreach (var character in scene[frame].characters_configuration) {
+        //        switch (SceneReader.GetCharacterPresense(scene, frame, character.Key))
+        //        {
+        //            case Presense.IN:
+        //                Effects.ShowCharacter(resourses.GetCharacter(character.Key));
+        //                break;
+        //            case Presense.STAY:
+        //                continue;
+
+        //            case Presense.OUT:
+        //                Effects.HideCharacter(resourses.GetCharacter(character.Key));
+        //                break;
+        //        }
+        //    }
+        //}
     }
 }
