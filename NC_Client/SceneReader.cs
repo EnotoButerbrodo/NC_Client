@@ -7,21 +7,7 @@ namespace NC_Client
 {
     public static class SceneReader
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string GetText(Scene scene, int frame)
-        {
-            return scene[frame].text;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string GetSpeaker(Scene scene, int frame)
-        {
-            return scene[frame].speaker;
-        }
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string GetBackground(Scene scene, int frame)
-        {
-            return scene[frame].background_config.background;
-        }
+        
 
 
     }

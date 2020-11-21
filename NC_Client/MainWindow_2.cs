@@ -34,7 +34,7 @@ namespace NC_Client
             ["Monika"] = Brushes.Red,
             ["Lilly"] = Brushes.Green
         };
-        public Resourses resourses = new Resourses();
+        Resourses resourses;
         int curr_frame = 0;
         bool skip = false;
 
@@ -68,21 +68,12 @@ namespace NC_Client
         {
 
             SetupBackgroundImage(scene, frame);
-            SetupCharactersSprites(scene, frame);
-            //CheckMoveEffects(scene, frame);
+            resourses.SetupCharactersSprites(frame);
             ShowText(scene, frame, 25);
         }
         void SetupBackgroundImage(Scene scene, int frame)
-        { 
-            BackgroundImage.Source = resourses.GetBackground(scene[frame].background_config.background);
-        }
-        void SetupCharactersSprites(Scene scene, int frame)
         {
-            foreach (var character in scene[frame].characters_config)
-            {
-                Character.SetImage(resourses.GetCharacter(character.Key),
-                   scene[frame].characters_config[character.Key].sprite);
-            }
+            BackgroundImage.Source = resourses.GetFrameBackground(frame);
         }
         async void ShowText(Scene scene, int frame, int time_del)
         {
@@ -92,9 +83,8 @@ namespace NC_Client
             if(scene[frame].speaker != null)
             {
                 Namebox.Text = scene[frame].speaker;
-                Namebox.Foreground = resourses.GetNamecolor(scene[frame].speaker);
+                Namebox.Foreground = resourses.GetFrameSpeakerColor(frame);
             }
-
             if (scene[frame].text != null)
             {
 
@@ -208,22 +198,6 @@ namespace NC_Client
 
             SaveSceneFile("script.json", curr_scene);
         }
-        //public void CheckMoveEffects(Scene scene, int frame)
-        //{
-        //    foreach (var character in scene[frame].characters_configuration) {
-        //        switch (SceneReader.GetCharacterPresense(scene, frame, character.Key))
-        //        {
-        //            case Presense.IN:
-        //                Effects.ShowCharacter(resourses.GetCharacter(character.Key));
-        //                break;
-        //            case Presense.STAY:
-        //                continue;
-
-        //            case Presense.OUT:
-        //                Effects.HideCharacter(resourses.GetCharacter(character.Key));
-        //                break;
-        //        }
-        //    }
-        //}
+        
     }
 }

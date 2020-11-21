@@ -41,15 +41,13 @@ namespace NC_Client
         
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            
             CreateTestScene();
             curr_scene = LoadSceneFile("script.json");
-            resourses.LoadSceneResourses(curr_scene, Characters_place);
+            resourses = new Resourses(Characters_place);
+            resourses.LoadSceneResourses(curr_scene);
             Effects.HideLoadingSplash(LoadingSplash);
             ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);
-            //curr_scene = LoadSceneFile("script.json");
-            //resourses.LoadScene(curr_scene, Characters_place);
-            //ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);
-            //Effects.HideLoadingSplash(LoadingSplash);
 
         }
         private void Button_Click2(object sender, RoutedEventArgs e)

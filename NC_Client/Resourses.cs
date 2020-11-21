@@ -11,13 +11,20 @@ namespace NC_Client
 {
     public class Resourses
     {
-        public Resourses()
+        public Resourses(Canvas char_place)
         {
             characters = new Dictionary<string, Character>();
             backgrounds = new Dictionary<string, BitmapImage>();
+            scenes = new Scene[3];
+            scene_count = 0;
+            this.char_place = char_place;
+       
         }
         Dictionary<string, Character> characters;
         Dictionary<string, BitmapImage> backgrounds;
+        Scene[] scenes;
+        byte scene_count;
+        Canvas char_place;
 
         Dictionary<string, SolidColorBrush> nameColor = new Dictionary<string, SolidColorBrush>()
         {
@@ -25,28 +32,29 @@ namespace NC_Client
             ["Lilly"] = Brushes.Green
         };
 
-        public BitmapImage GetBackground(string name)
+        public BitmapImage GetFrameBackground(int frame)
         {
-            if(BackgroundInList(name))
-            return backgrounds[name];
-            throw new Exception("Фон отсуствует");
+            return backgrounds[scenes[scene_count][frame].background_config.background];
         }
-        public Character GetCharacter(string name)
+        public Dictionary<string, Character_info> GetFrameCharacterConfig(int frame)
         {
-            if(CharacterInList(name))
-            return characters[name];
-            throw new Exception("Персонаж отсуствует");
+            return scenes[scene_count][frame].characters_config;
         }
-        public SolidColorBrush GetNamecolor(string char_name)
+        public SolidColorBrush GetFrameSpeakerColor(int frame)
         {
-            
-            return nameColor[char_name] ?? Brushes.Transparent;
+            return nameColor[scenes[scene_count][frame].speaker] ?? Brushes.Transparent;
         }
-        public BitmapImage GetSprite(string char_name, string sprite_name)
+        public BitmapImage GetSprite(int frame, string char_name, string sprite)
         {
-            return characters[char_name].sprites[sprite_name];
+            return characters[char_name].sprites[sprite];
         }
-
+        public void SetupCharactersSprites(int frame)
+        {
+            foreach(var character in scenes[scene_count][frame].characters_config)
+            {
+                characters[character.Key].SetSprite(character.Value.sprite);
+            }
+        }
         public static MemoryStream ReadFromZip(string zipPath, string fileName)
         {
             using (ZipFile zip = ZipFile.Read(zipPath))
@@ -63,13 +71,15 @@ namespace NC_Client
             }
             throw new Exception("Файл не найден");
         }
-        public void LoadSceneResourses(Scene scene, Canvas place)
+        public void LoadSceneResourses(Scene scene)
         {
-            LoadCharactersResourses(scene, place);
+            scenes[scene_count] = scene;
+            LoadCharactersResourses(scene);
             LoadBackgroundsResourses(scene);
         }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        void LoadCharactersResourses(Scene scene, Canvas place)
+        void LoadCharactersResourses(Scene scene)
         {
             foreach (var character in scene.used_sprites)
             {
@@ -83,8 +93,6 @@ namespace NC_Client
                         nameColor = nameColor[character.Key]
                     };
                     CreateImageForCharacter(new_char);
-
-                    place.Children.Add(new_char.image);
 
                     AddCharacter(character.Key, new_char);
                 }
@@ -113,6 +121,7 @@ namespace NC_Client
             Canvas.SetBottom(character.image, character.position.Y);
             character.image.Stretch = Stretch.Uniform;
             character.image.EndInit();
+            char_place.Children.Add(character.image);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

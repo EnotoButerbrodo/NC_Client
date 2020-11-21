@@ -26,10 +26,10 @@ namespace NC_Client
         public double size { get; set; }
         bool Visible { get; set; } = false;
         public Image image { get; set; }
-
-        public static void SetImage(Character character, string sprite)
+        
+        public void SetSprite(string sprite)
         {
-            character.image.Source = character.sprites[sprite];
+            image.Source = sprites[sprite];
         }
     }
 }
