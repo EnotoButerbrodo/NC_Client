@@ -46,6 +46,7 @@ namespace NC_Client
             curr_scene = LoadSceneFile("script.json");
             resourses = new Resourses(Characters_place);
             resourses.LoadSceneResourses(curr_scene);
+            resourses.LoadSceneResourses(curr_scene);
             Effects.HideLoadingSplash(LoadingSplash);
             ChangeFrame(curr_scene, curr_frame++ % curr_scene.Length);
 

@@ -165,7 +165,7 @@ namespace NC_Client
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         bool SpriteInList(string char_name, string sprite_name)
         {
-            return characters[char_name].sprites.ContainsKey(char_name);
+            return characters[char_name].sprites.ContainsKey(sprite_name);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
