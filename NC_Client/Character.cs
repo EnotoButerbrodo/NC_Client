@@ -15,14 +15,12 @@ namespace NC_Client
         {
             nameColor = Brushes.Black;
             sprites = new Dictionary<string, BitmapImage>();
-            position = new Point(0, 0);
             size = 1.0;
             image = new Image();
         }
         public string name { get; set; }
         public SolidColorBrush nameColor { get; set; }
         public Dictionary<string, BitmapImage> sprites { get; set; }
-        public Point position { get; set; }
         public double size { get; set; }
         bool Visible { get; set; } = false;
         public Image image { get; set; }

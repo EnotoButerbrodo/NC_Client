@@ -17,28 +17,42 @@ namespace NC_Client
             backgrounds = new Dictionary<string, BitmapImage>();
             scenes = new Scene[3];
             scene_count = 0;
-            this.char_place = char_place;
        
         }
         Dictionary<string, Character> characters;
         Dictionary<string, BitmapImage> backgrounds;
-        Scene[] scenes;
-        byte scene_count;
-        Canvas char_place;
-
         Dictionary<string, SolidColorBrush> nameColor = new Dictionary<string, SolidColorBrush>()
         {
             ["Monika"] = Brushes.Red,
             ["Lilly"] = Brushes.Green
         };
+        Scene[] scenes;
+        byte scene_count;
+
+        public Character GetCharacter(string name) => characters[name];
+        public Dictionary<string, BitmapImage> GetFrameSprites(int frame)
+        {
+            Dictionary<string, BitmapImage> frame_sprites = new Dictionary<string, BitmapImage>();
+            foreach (var char_info in scenes[scene_count][frame].characters_config)
+            {
+                frame_sprites.Add(char_info.Key, characters[char_info.Key].sprites[char_info.Value.sprite]);
+            }
+            return frame_sprites;
+        }
+        public BitmapImage GetBitmapImage(string name) => backgrounds[name];
+
 
         public BitmapImage GetFrameBackground(int frame)
         {
             return backgrounds[scenes[scene_count][frame].background_config.background];
         }
-        public Dictionary<string, Character_info> GetFrameCharacterConfig(int frame)
+        public Character_info GetCharacterConfig(int frame, string name)
         {
-            return scenes[scene_count][frame].characters_config;
+            return scenes[scene_count][frame].characters_config[name];
+        }
+        public BitmapImage GetCharacterSprite(int frame, string name)
+        {
+            return characters
         }
         public SolidColorBrush GetFrameSpeakerColor(int frame)
         {
